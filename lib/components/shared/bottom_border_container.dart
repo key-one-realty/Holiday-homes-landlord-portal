@@ -12,7 +12,7 @@ class BottomBorderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 110,
+      // height: 110,
       child: Stack(
         children: [
           Positioned(

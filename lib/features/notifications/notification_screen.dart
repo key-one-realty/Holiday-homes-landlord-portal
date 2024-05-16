@@ -12,6 +12,7 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
           appBarTitle: "Notifications",
+          goBack: true,
           onPressLeadingIcon: () {
             Navigator.pop(context);
           }),

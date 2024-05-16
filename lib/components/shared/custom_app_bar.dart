@@ -2,18 +2,23 @@ import 'package:badges/badges.dart' as badge;
 import 'package:flutter/material.dart';
 import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/features/notifications/notification_screen.dart';
+import 'package:landlord_portal/features/profile/profile_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(
-      {super.key, required this.appBarTitle, this.onPressLeadingIcon});
+      {super.key,
+      required this.appBarTitle,
+      this.goBack = false,
+      this.onPressLeadingIcon});
 
   final String appBarTitle;
+  final bool goBack;
   final void Function()? onPressLeadingIcon;
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
 
-  Icon get icon => appBarTitle != "Notifications"
+  Icon get icon => !goBack
       ? const Icon(
           Icons.person_2_outlined,
           color: Colors.white,
@@ -41,7 +46,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       backgroundColor: kPrimaryColor,
-      leading: IconButton(icon: icon, onPressed: onPressLeadingIcon),
+      leading: IconButton(
+          icon: icon,
+          onPressed: () {
+            if (!goBack) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ),
+              );
+            } else {
+              Navigator.pop(context);
+            }
+          }),
       actions: [
         badge.Badge(
           position: badge.BadgePosition.topEnd(top: 6, end: 8),

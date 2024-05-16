@@ -23,19 +23,19 @@ class KeyFactsData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           dataTitle,
           style: const TextStyle(
             color: Color(0xFF1D1D25),
-            fontSize: 14,
+            fontSize: 16,
             fontFamily: 'Inter',
             fontWeight: FontWeight.w600,
             height: 0.10,
           ),
         ),
-        const SizedBox(height: 25.0),
+        const SizedBox(height: 45.0),
         Text(
           dataValue,
           style: const TextStyle(
@@ -47,45 +47,45 @@ class KeyFactsData extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Icon(
-                icon,
-                color: color,
-              ),
-            ),
-            Text(
-              dataPercentage,
-              style: TextStyle(
-                color: color,
-                fontSize: 14,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w600,
-                height: 0.10,
-              ),
-            ),
-            const SizedBox(
-              width: 6.0,
-            ),
-            const Align(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                'from last month',
-                style: TextStyle(
-                  color: Color(0xFF808D9E),
-                  fontSize: 10,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
-                  height: 0.22,
-                  letterSpacing: -0.50,
-                ),
-              ),
-            )
-          ],
-        )
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   children: [
+        //     Align(
+        //       alignment: Alignment.topLeft,
+        //       child: Icon(
+        //         icon,
+        //         color: color,
+        //       ),
+        //     ),
+        //     Text(
+        //       dataPercentage,
+        //       style: TextStyle(
+        //         color: color,
+        //         fontSize: 14,
+        //         fontFamily: 'Inter',
+        //         fontWeight: FontWeight.w600,
+        //         height: 0.10,
+        //       ),
+        //     ),
+        //     const SizedBox(
+        //       width: 6.0,
+        //     ),
+        //     const Align(
+        //       alignment: Alignment.bottomCenter,
+        //       child: Text(
+        //         'from last month',
+        //         style: TextStyle(
+        //           color: Color(0xFF808D9E),
+        //           fontSize: 10,
+        //           fontFamily: 'Inter',
+        //           fontWeight: FontWeight.w400,
+        //           height: 0.22,
+        //           letterSpacing: -0.50,
+        //         ),
+        //       ),
+        //     )
+        //   ],
+        // )
       ],
     );
   }

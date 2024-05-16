@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:landlord_portal/features/authentication/login.dart';
 import 'package:landlord_portal/features/onboarding_screens/onboarding_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,10 +18,26 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (builder) => const OnboardingScreen()));
-    });
+    Future.delayed(
+      const Duration(seconds: 2),
+      () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        bool? checkUser = prefs.getBool('user_onboarded');
+
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (builder) {
+              if (checkUser != null) {
+                return const Login();
+              } else {
+                return const OnboardingScreen();
+              }
+            },
+          ),
+        );
+      },
+    );
   }
 
   @override

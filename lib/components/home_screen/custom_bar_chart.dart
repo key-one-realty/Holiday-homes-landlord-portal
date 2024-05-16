@@ -4,21 +4,19 @@ import 'package:landlord_portal/config/chart_month_constructor.dart';
 import 'package:landlord_portal/config/colors.dart';
 
 class CustomBarChart extends StatelessWidget {
-  CustomBarChart({Key? key}) : super(key: key);
+  const CustomBarChart({super.key, required this.incomeData});
 
-  final List<MapEntry<int, double>> incomeData = [
-    const MapEntry(1, 100.0),
-    const MapEntry(2, 300.0),
-    const MapEntry(3, 400.0),
-    const MapEntry(4, 150.0),
-    const MapEntry(5, 500.0),
-    const MapEntry(6, 100.0),
-  ];
+  final List<MapEntry<int, double>> incomeData;
 
   @override
   Widget build(BuildContext context) {
     return BarChart(
       BarChartData(
+        barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+          tooltipBgColor: Colors.white,
+          fitInsideHorizontally: true,
+        )),
         borderData: FlBorderData(
           show: false,
         ),

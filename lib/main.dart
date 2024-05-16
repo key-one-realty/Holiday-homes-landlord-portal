@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:landlord_portal/components/shared/view_model/shared_component_model.dart';
+import 'package:landlord_portal/features/authentication/view_model/auth_provider.dart';
+import 'package:landlord_portal/features/my_properties/model/property_details_model.dart';
+import 'package:landlord_portal/features/my_properties/model/property_model.dart';
 import 'package:landlord_portal/features/splash_screen/splash_screen.dart';
 import 'package:landlord_portal/store/navigation_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => NavigationModel(),
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (content) => PropertyDetailsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (content) => PropertyProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SharedComponentModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NavigationModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthPovider(),
+        )
+      ],
+      child: const MyApp(),
     ),
-  ], child: const MyApp()));
+  );
 }
 
 class MyApp extends StatelessWidget {
