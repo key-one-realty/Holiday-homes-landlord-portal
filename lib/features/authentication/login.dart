@@ -75,12 +75,14 @@ class Login extends StatelessWidget {
                                   await SharedPreferences.getInstance();
                               if (loginSuccess) {
                                 prefs.setBool('user_onboarded', true);
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (builder) =>
-                                        const CustomNavigationBar(),
-                                  ),
-                                );
+                                if (context.mounted) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (builder) =>
+                                          const CustomNavigationBar(),
+                                    ),
+                                  );
+                                }
                               }
                             }
                           },

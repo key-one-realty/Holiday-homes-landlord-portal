@@ -55,7 +55,7 @@ class CardContainer extends StatelessWidget {
           child: Shimmer.fromColors(
             baseColor: Colors.white70,
             highlightColor: Colors.grey,
-            child: BarChartLoader(),
+            child: const BarChartLoader(),
           ),
         );
       } else {

@@ -25,17 +25,19 @@ class _SplashScreenState extends State<SplashScreen>
 
         bool? checkUser = prefs.getBool('user_onboarded');
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (builder) {
-              if (checkUser != null) {
-                return const Login();
-              } else {
-                return const OnboardingScreen();
-              }
-            },
-          ),
-        );
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (builder) {
+                if (checkUser != null) {
+                  return const Login();
+                } else {
+                  return const OnboardingScreen();
+                }
+              },
+            ),
+          );
+        }
       },
     );
   }

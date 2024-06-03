@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/features/home/home_screen.dart';
 import 'package:landlord_portal/features/my_properties/properties.dart';

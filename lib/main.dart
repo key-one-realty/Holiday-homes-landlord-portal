@@ -9,7 +9,9 @@ import 'package:landlord_portal/store/navigation_provider.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: ".env");
+  if (const bool.fromEnvironment('IS_LOCAL', defaultValue: true)) {
+    await dotenv.load(fileName: ".env");
+  }
   runApp(
     MultiProvider(
       providers: [

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:landlord_portal/config/colors.dart';
 
 class BarChartLoader extends StatefulWidget {
-  BarChartLoader({super.key});
+  const BarChartLoader({super.key});
 
   final Color barBackgroundColor = Colors.white;
   final Color barColor = kPrimaryColor;

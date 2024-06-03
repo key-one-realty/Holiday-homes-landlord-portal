@@ -62,7 +62,7 @@ class AuthPovider extends ChangeNotifier {
       if (response.statusCode == 200) {
         //Request was successful
         // Process the data
-        print(data);
+        // print(data);
         _loginResponse = AuthUserModel.fromJson(jsonDecode(response.body));
         _user = _loginResponse!.user;
         SharedPreferences prefs = await SharedPreferences.getInstance();

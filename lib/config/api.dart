@@ -1,6 +1,10 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-String? baseApi = dotenv.env["BASE_API_URL"];
+String? getEnvironmentalVariable(String key) {
+  return String.fromEnvironment(key, defaultValue: dotenv.env[key] ?? "");
+}
+
+String? baseApi = getEnvironmentalVariable("BASE_API_URL");
 
 String login = '$baseApi/login';
 
