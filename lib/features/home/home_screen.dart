@@ -62,6 +62,7 @@ class HomeScreen extends StatelessWidget {
               const Column(
                 children: [
                   CardContainer(
+                    isEmpty: true,
                     customHeight: 361,
                     cardHeader: 'Income',
                     trailing: true,
@@ -107,13 +108,15 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               const CardContainer(
+                isEmpty: true,
                 cardHeader: 'Key Facts',
                 customHeight: 316,
                 child: KeyFacts(),
               ),
               const PersonalManager(),
               const CardContainer(
-                hasBtn: true,
+                isEmpty: true,
+                hasBtn: false,
                 buttonText: "See All Messages",
                 cardHeader: 'Announcements',
                 child: Column(

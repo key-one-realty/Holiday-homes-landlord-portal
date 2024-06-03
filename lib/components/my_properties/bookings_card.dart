@@ -1,22 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:landlord_portal/components/shared/border_line.dart';
+import 'package:landlord_portal/config/colors.dart';
 
+// ignore: must_be_immutable
 class BookingCard extends StatelessWidget {
-  const BookingCard({super.key});
+  BookingCard(
+      {super.key,
+      this.bookinNightsQty = "empty",
+      this.bookingPlatform = "Direct",
+      this.occupantsName = "empty",
+      this.rentalAmount = "0",
+      this.bookingDate = ""});
+
+  final String occupantsName;
+
+  final String bookingPlatform;
+
+  final String bookinNightsQty;
+
+  final String rentalAmount;
+
+  final String bookingDate;
+
+  String formattedBookingPlatform = "";
+
+  Color get bookingPlatformColor {
+    if (bookingPlatform == "Booking.com B.V.") {
+      formattedBookingPlatform = "Booking.com";
+      return kBookingComColor;
+    } else if (bookingPlatform == "AirBNB") {
+      formattedBookingPlatform = "Airbnb";
+      return kAirBnB;
+    } else {
+      formattedBookingPlatform = "Direct Booking";
+      return kPrimaryColor;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const SizedBox(height: 20),
-        const Text(
-          "Ashley Cole",
-          style: TextStyle(
-            color: Color(0xFF262626),
-            fontSize: 16,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w700,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              occupantsName,
+              style: const TextStyle(
+                color: Color(0xFF262626),
+                fontSize: 16,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              bookingDate,
+              style: const TextStyle(
+                color: Color.fromARGB(255, 90, 90, 90),
+                fontSize: 12,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
         ),
         const SizedBox(
           height: 16,
@@ -28,19 +75,19 @@ class BookingCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: const Color(0xFF003B95),
+                color: bookingPlatformColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Booking.com',
-                    style: TextStyle(
+                    formattedBookingPlatform,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontFamily: 'Inter',
@@ -60,14 +107,14 @@ class BookingCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '7 days',
-                    style: TextStyle(
+                    '$bookinNightsQty ${int.parse(bookinNightsQty) > 1 ? "nights" : "night"}',
+                    style: const TextStyle(
                       color: Color(0xFF737373),
                       fontSize: 12,
                       fontFamily: 'Inter',
@@ -87,14 +134,14 @@ class BookingCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '1 100 AED',
-                    style: TextStyle(
+                    'AED $rentalAmount',
+                    style: const TextStyle(
                       color: Color(0xFF737373),
                       fontSize: 12,
                       fontFamily: 'Inter',

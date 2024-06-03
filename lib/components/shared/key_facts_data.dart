@@ -14,16 +14,31 @@ class KeyFactsData extends StatelessWidget {
   final String dataPercentage;
   final String dataPercentageTrend;
 
-  IconData get icon =>
-      dataPercentageTrend == 'up' ? Icons.arrow_upward : Icons.arrow_downward;
+  IconData get icon {
+    if (dataPercentageTrend == 'up') {
+      return Icons.arrow_upward;
+    } else if (dataPercentageTrend == 'down') {
+      return Icons.arrow_downward;
+    } else {
+      return Icons.drag_handle_sharp;
+    }
+  }
 
-  Color get color => dataPercentageTrend == 'up' ? kPrimaryColor : kRedAccent;
+  Color get color {
+    if (dataPercentageTrend == 'up') {
+      return kPrimaryColor;
+    } else if (dataPercentageTrend == 'down') {
+      return kRedAccent;
+    } else {
+      return kTertiaryColor;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           dataTitle,
@@ -35,7 +50,7 @@ class KeyFactsData extends StatelessWidget {
             height: 0.10,
           ),
         ),
-        const SizedBox(height: 45.0),
+        const SizedBox(height: 25.0),
         Text(
           dataValue,
           style: const TextStyle(
@@ -47,45 +62,45 @@ class KeyFactsData extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   children: [
-        //     Align(
-        //       alignment: Alignment.topLeft,
-        //       child: Icon(
-        //         icon,
-        //         color: color,
-        //       ),
-        //     ),
-        //     Text(
-        //       dataPercentage,
-        //       style: TextStyle(
-        //         color: color,
-        //         fontSize: 14,
-        //         fontFamily: 'Inter',
-        //         fontWeight: FontWeight.w600,
-        //         height: 0.10,
-        //       ),
-        //     ),
-        //     const SizedBox(
-        //       width: 6.0,
-        //     ),
-        //     const Align(
-        //       alignment: Alignment.bottomCenter,
-        //       child: Text(
-        //         'from last month',
-        //         style: TextStyle(
-        //           color: Color(0xFF808D9E),
-        //           fontSize: 10,
-        //           fontFamily: 'Inter',
-        //           fontWeight: FontWeight.w400,
-        //           height: 0.22,
-        //           letterSpacing: -0.50,
-        //         ),
-        //       ),
-        //     )
-        //   ],
-        // )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Icon(
+                icon,
+                color: color,
+              ),
+            ),
+            Text(
+              dataPercentage,
+              style: TextStyle(
+                color: color,
+                fontSize: 14,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w600,
+                height: 0.10,
+              ),
+            ),
+            const SizedBox(
+              width: 6.0,
+            ),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'from last month',
+                style: TextStyle(
+                  color: Color(0xFF808D9E),
+                  fontSize: 10,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w400,
+                  height: 0.22,
+                  letterSpacing: -0.50,
+                ),
+              ),
+            )
+          ],
+        )
       ],
     );
   }

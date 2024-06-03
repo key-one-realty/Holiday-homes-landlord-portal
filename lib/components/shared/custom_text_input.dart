@@ -62,8 +62,8 @@ class CustomTextInput extends StatelessWidget {
             suffixIcon: obscureText!
                 ? IconButton(
                     icon: value.obscureLoginPasswordField
-                        ? const Icon(Icons.visibility_off)
-                        : const Icon(Icons.visibility),
+                        ? const Icon(Icons.visibility)
+                        : const Icon(Icons.visibility_off),
                     onPressed: () => value.toggleObscureLoginPasswordField(),
                   )
                 : null,

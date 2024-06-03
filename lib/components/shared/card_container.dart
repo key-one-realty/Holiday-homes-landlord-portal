@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:landlord_portal/components/shared/card_button.dart';
 import 'package:landlord_portal/config/colors.dart';
+import 'package:landlord_portal/config/helpers/bar_chart_loading.dart';
+import 'package:landlord_portal/config/helpers/loading_icon.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CardContainer extends StatelessWidget {
-  const CardContainer({
-    super.key,
-    required this.child,
-    required this.cardHeader,
-    this.customHeight,
-    this.trailing = false,
-    this.hasBtn = false,
-    this.trailingWidgetText = 'AED',
-    this.trailingWidgetBackground = kSecondaryColor,
-    this.buttonText = 'See All',
-    this.onPressed,
-  });
+  const CardContainer(
+      {super.key,
+      required this.child,
+      required this.cardHeader,
+      this.customHeight,
+      this.trailing = false,
+      this.hasBtn = false,
+      this.trailingWidgetText = 'AED',
+      this.trailingWidgetBackground = kSecondaryColor,
+      this.buttonText = 'See All',
+      this.onPressed,
+      this.isLoading = false,
+      this.isEmpty = false});
 
   final Widget child;
   final double? customHeight;
@@ -25,6 +29,50 @@ class CardContainer extends StatelessWidget {
   final String buttonText;
   final Color trailingWidgetBackground;
   final void Function()? onPressed;
+  final bool isLoading;
+  final bool isEmpty;
+
+  Widget get containerState {
+    if (isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Text(
+          "No $cardHeader data available at the moment",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF1D1D25),
+            fontSize: 16,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      );
+    } else if (isLoading) {
+      if (cardHeader.toLowerCase() == "income") {
+        return SizedBox(
+          width: 300.0,
+          height: 250.0,
+          child: Shimmer.fromColors(
+            baseColor: Colors.white70,
+            highlightColor: Colors.grey,
+            child: BarChartLoader(),
+          ),
+        );
+      } else {
+        return SizedBox(
+          width: 300.0,
+          height: 100.0,
+          child: Shimmer.fromColors(
+            baseColor: Colors.white70,
+            highlightColor: Colors.grey,
+            child: const LoadingIcon(),
+          ),
+        );
+      }
+    } else {
+      return child;
+    }
+  }
 
   Container? get trailingWidget => trailing
       ? Container(
@@ -98,7 +146,7 @@ class CardContainer extends StatelessWidget {
                   trailingWidget ?? Container(),
                 ],
               ),
-              child,
+              containerState,
               cardButton ?? Container(),
             ],
           ),

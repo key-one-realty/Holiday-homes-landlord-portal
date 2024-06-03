@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:landlord_portal/config/api.dart';
@@ -22,9 +22,25 @@ class PropertyDetailsProvider extends ChangeNotifier {
 
   PropertyIncome? _propertyIncome;
 
-  bool isLoading = false;
+  PropertyTrendsReport? _propertyTrendsReport;
+
+  List<MonthlyBooking>? _monthlyBookings;
+
+  bool _isLoading = true;
+
+  bool get isLoading => _isLoading;
 
   bool isSuccess = false;
+
+  set setIsLoading(bool isLoadingValue) {
+    _isLoading = isLoadingValue;
+    notifyListeners();
+  }
+
+  set setIsSuccess(bool isSuccess) {
+    isSuccess = isSuccess;
+    notifyListeners();
+  }
 
   String get displayImageUrl {
     if (_propertyDetailsBody != null) {
@@ -68,7 +84,7 @@ class PropertyDetailsProvider extends ChangeNotifier {
 
   String get upcomingRent {
     if (_transactionDetails != null) {
-      return '${_transactionDetails!.upcomingRent}';
+      return 'AED ${_transactionDetails!.upcomingRent}';
     } else {
       return "";
     }
@@ -93,10 +109,11 @@ class PropertyDetailsProvider extends ChangeNotifier {
   PropertyIncome? get propertyIncome => _propertyIncome;
 
   List<Map<String, Map>> get bookedDates {
-    List<Map<String, Map>> datesBooked = <Map<String, Map>>[];
+    List<Map<String, Map>> datesBooked = [];
     if (_transactionDetails != null) {
-      Map<String, Map> formattedDate = <String, Map>{};
+      int arrayCount = 0;
       for (BookingDate date in _transactionDetails!.bookingDates) {
+        Map<String, Map> formattedDate = <String, Map>{};
         // formattedDate['year'] = date.
         String checkin = date.checkIn;
         String checkout = date.checkOut;
@@ -119,9 +136,13 @@ class PropertyDetailsProvider extends ChangeNotifier {
           "year": yearOut,
         };
 
-        datesBooked.add(formattedDate);
+        datesBooked.insert(arrayCount, formattedDate);
+        arrayCount++;
       }
     }
+
+    // debugPrint("Formatted Booked dates From provider test! $datesBooked");
+
     return datesBooked;
   }
 
@@ -135,8 +156,14 @@ class PropertyDetailsProvider extends ChangeNotifier {
 
   String get latestMonth {
     if (_propertyIncome != null) {
-      IncomeItem latestIncome = _propertyIncome!.propertyIncome.last;
-      return latestIncome.monthString;
+      if (_propertyIncome!.propertyIncome.isNotEmpty) {
+        int propertyIncomeLength = _propertyIncome!.propertyIncome.length;
+        IncomeItem latestIncome =
+            _propertyIncome!.propertyIncome[propertyIncomeLength - 1];
+        return latestIncome.monthString;
+      } else {
+        return "";
+      }
     } else {
       return "Loading";
     }
@@ -144,11 +171,79 @@ class PropertyDetailsProvider extends ChangeNotifier {
 
   String get latestMonthIncome {
     if (_propertyIncome != null) {
-      IncomeItem latestIncome = _propertyIncome!.propertyIncome.last;
-      return latestIncome.income;
+      if (_propertyIncome!.propertyIncome.isNotEmpty) {
+        int propertyIncomeLength = _propertyIncome!.propertyIncome.length;
+        IncomeItem latestIncome =
+            _propertyIncome!.propertyIncome[propertyIncomeLength - 1];
+        return latestIncome.income;
+      } else {
+        return "";
+      }
     } else {
       return "";
     }
+  }
+
+  List<String> get grossIncomeTrend {
+    if (_propertyTrendsReport != null) {
+      GrossIncomeTrend grossIncomeTrend =
+          _propertyTrendsReport!.grossIncomeTrend;
+      return [
+        '${grossIncomeTrend.trendChange}',
+        grossIncomeTrend.trendDirection
+      ];
+    } else {
+      return ["", ""];
+    }
+  }
+
+  List<String> get occupanyRateTrend {
+    if (_propertyTrendsReport != null) {
+      OccupanyRateTrend occupancyRateTrend =
+          _propertyTrendsReport!.occupanyRateTrend;
+      return [
+        '${occupancyRateTrend.trendChange}',
+        occupancyRateTrend.trendDirection
+      ];
+    } else {
+      return ["", ""];
+    }
+  }
+
+  List<String> get totalBookingTrend {
+    if (_propertyTrendsReport != null) {
+      TotalBookingTrend totalBookingTrend =
+          _propertyTrendsReport!.totalBookingTrend;
+      return [
+        '${totalBookingTrend.trendChange}',
+        totalBookingTrend.trendDirection
+      ];
+    } else {
+      return ["", ""];
+    }
+  }
+
+  List<MonthlyBooking>? get monthlyBooking {
+    if (_monthlyBookings != null) {
+      return _monthlyBookings;
+    } else {
+      return [];
+    }
+  }
+
+  String get currentMonth {
+    DateTime now = DateTime.now();
+
+    String currentMonthString = DateFormat.MMMM().format(now);
+
+    return currentMonthString;
+  }
+
+  bool incomeListEmpty = false;
+
+  set setIncomeListEmpty(bool value) {
+    incomeListEmpty = value;
+    notifyListeners();
   }
 
   // void setLoading(bool isLoading) {
@@ -185,16 +280,26 @@ class PropertyDetailsProvider extends ChangeNotifier {
         _propertyDetailsBody = _propertyDetailsData!.propertyDetailsScreenBody;
         _transactionDetails = _propertyDetailsData!.transactionDetails;
         _propertyIncome = _propertyDetailsData!.propertyIncome;
+        _propertyTrendsReport = _propertyDetailsData!.propertyTrendsReport;
+        _monthlyBookings = _propertyDetailsData!.monthlyBooking;
 
-        // setLoading(false);
+        // debugPrint(
+        //     "From api method: ${_transactionDetails!.bookingDates[0].checkIn}");
+
+        int propertyIncomeLength = _propertyIncome!.propertyIncome.length;
+
+        setIncomeListEmpty = propertyIncomeLength <= 0;
+
+        setIsLoading = false;
         notifyListeners();
         return _propertyDetailsApiResponse!.success;
       } else {
-        // setLoading(false);
+        setIsLoading = false;
         throw Exception(data["message"]);
       }
     } catch (e) {
       debugPrint('$e');
+      // setIsSuccess = false;
       Fluttertoast.showToast(
         msg: "$e",
         toastLength: Toast.LENGTH_SHORT,

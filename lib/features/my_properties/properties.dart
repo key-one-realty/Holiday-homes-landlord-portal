@@ -86,8 +86,9 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                         return const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: SizedBox(
+                            width: 30,
                             height: 60.0,
-                            child: Text("No Properties Available!"),
+                            child: CircularProgressIndicator(),
                           ),
                         );
                       }

@@ -27,7 +27,6 @@ class PropertyDetails extends StatefulWidget {
 class _PropertyDetailsState extends State<PropertyDetails> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     // call the getUserProperty API
@@ -47,15 +46,18 @@ class _PropertyDetailsState extends State<PropertyDetails> {
       for (Map<String, Map> dates in bookedDatesListFromModel) {
         Map? startDate = dates["checkIn"];
         Map? endDate = dates["checkOut"];
-        bookedDates.add(PickerDateRange(
-          DateTime(startDate!["year"], startDate["month"], startDate["day"]),
-          DateTime(
-            endDate!["year"],
-            endDate["month"],
-            endDate["day"],
+        bookedDates.add(
+          PickerDateRange(
+            DateTime(startDate!["year"], startDate["month"], startDate["day"]),
+            DateTime(
+              endDate!["year"],
+              endDate["month"],
+              endDate["day"],
+            ),
           ),
-        ));
+        );
       }
+      // debugPrint('Booked Dates: $bookedDates');
       return bookedDates;
     } else {
       return null;
@@ -63,11 +65,31 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   }
 
   List<Widget> get upcomingBookingsList {
-    List<dynamic> bookings =
-        context.read<PropertyDetailsProvider>().upcomingBooking;
+    List<MonthlyBooking>? bookings =
+        context.read<PropertyDetailsProvider>().monthlyBooking;
 
-    if (bookings.isNotEmpty) {
-      return [const BookingCard()];
+    List<Widget> bookingCard = [];
+    if (bookings != null) {
+      if (bookings.isNotEmpty) {
+        for (MonthlyBooking booking in bookings) {
+          // debugPrint("${booking.bookingClientName}");
+          bookingCard.add(BookingCard(
+            bookinNightsQty: booking.bookingNightQty,
+            bookingDate: booking.bookingDate,
+            bookingPlatform: booking.bookingPlatform,
+            occupantsName: booking.bookingClientName,
+            rentalAmount: booking.bookingRentalAmount,
+          ));
+        }
+        return bookingCard;
+      } else {
+        return [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("No upcoming bookings"),
+          )
+        ];
+      }
     } else {
       return [
         const Padding(
@@ -86,15 +108,30 @@ class _PropertyDetailsState extends State<PropertyDetails> {
 
     if (propertyProvider != null) {
       List<IncomeItem> incomeList = propertyProvider.propertyIncome;
+      if (incomeList.isNotEmpty) {
+        incomeList.sort((a, b) => a.month.compareTo(b.month));
 
-      incomeList.sort((a, b) => a.month.compareTo(b.month));
+        int incomelistLength = incomeList.length - 1;
+        int lastIncomeMonth = incomeList[incomelistLength].month;
 
-      for (IncomeItem income in incomeList) {
-        double incomeDouble = double.parse(income.income.replaceAll(",", ""));
-        MapEntry<int, double> entry = MapEntry(income.month, incomeDouble);
-        mapEntryList.add(entry);
+        int leastMonth = lastIncomeMonth - 6;
+
+        for (IncomeItem income in incomeList) {
+          if (income.month > leastMonth) {
+            double incomeDouble =
+                double.parse(income.income.replaceAll(",", ""));
+            MapEntry<int, double> entry = MapEntry(income.month, incomeDouble);
+            mapEntryList.add(entry);
+          } else {
+            continue;
+          }
+        }
+        // context.read<PropertyDetailsProvider>().incomeListEmpty = false;
+        return mapEntryList;
+      } else {
+        // context.read<PropertyDetailsProvider>().incomeListEmpty = true;
+        return [const MapEntry(1, 0)];
       }
-      return mapEntryList;
     } else {
       return [const MapEntry(1, 0)];
     }
@@ -252,6 +289,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 ),
               ),
               CardContainer(
+                isLoading: value.isLoading,
+                isEmpty: value.incomeListEmpty,
                 customHeight: 361,
                 cardHeader: 'Income',
                 trailing: true,
@@ -298,6 +337,10 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 ),
               ),
               CardContainer(
+                isLoading: value.isLoading,
+                isEmpty: value.grossIncome == 'AED 0' &&
+                    value.occupancyRate == "0%" &&
+                    value.totalNightsBooked == "0",
                 cardHeader: 'Key Facts',
                 customHeight: 316,
                 child: KeyFacts(
@@ -305,9 +348,17 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   dataValue2: value.upcomingRent,
                   dataValue3: value.occupancyRate,
                   dataValue4: value.totalNightsBooked,
+                  dataTrend1: value.grossIncomeTrend[0],
+                  dataTrendDirection1: value.grossIncomeTrend[1],
+                  dataTrend3: value.occupanyRateTrend[0],
+                  dataTrendDirection3: value.occupanyRateTrend[1],
+                  dataTrend4: value.totalBookingTrend[0],
+                  dataTrendDirection4: value.totalBookingTrend[1],
                 ),
               ),
               CardContainer(
+                  isLoading: value.isLoading,
+                  isEmpty: bookedDateList?.isEmpty ?? true,
                   cardHeader: "Calendar",
                   child: Column(
                     children: [
@@ -357,12 +408,17 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     ],
                   )),
               CardContainer(
-                cardHeader: "Upcoming Bookings",
+                // isEmpty: true,
+                isLoading: value.isLoading,
+                cardHeader: "${value.currentMonth} Bookings",
                 child: Column(
                   children: upcomingBookingsList,
                 ),
               ),
               const PersonalManager(),
+              const SizedBox(
+                height: 20.0,
+              )
             ],
           ),
         ),
