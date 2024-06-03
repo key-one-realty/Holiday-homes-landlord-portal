@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 1),
       () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
