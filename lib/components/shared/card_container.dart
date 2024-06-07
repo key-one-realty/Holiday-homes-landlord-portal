@@ -37,7 +37,7 @@ class CardContainer extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(12.0),
         child: Text(
-          "No $cardHeader data available at the moment",
+          "No ${cardHeader.toLowerCase()} available at the moment",
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: Color(0xFF1D1D25),

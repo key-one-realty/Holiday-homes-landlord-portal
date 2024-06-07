@@ -292,14 +292,14 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 isLoading: value.isLoading,
                 isEmpty: value.incomeListEmpty,
                 customHeight: 361,
-                cardHeader: 'Income',
+                cardHeader: 'Payouts',
                 trailing: true,
                 trailingWidgetBackground: kPrimaryColor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${value.latestMonth} Income',
+                      '${value.latestMonth} Payout',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF7E8BA0),
@@ -341,7 +341,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 isEmpty: value.grossIncome == 'AED 0' &&
                     value.occupancyRate == "0%" &&
                     value.totalNightsBooked == "0",
-                cardHeader: 'Key Facts',
+                cardHeader: '${value.latestMonth} Facts',
                 customHeight: 316,
                 child: KeyFacts(
                   dataValue1: value.grossIncome,
@@ -350,6 +350,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   dataValue4: value.totalNightsBooked,
                   dataTrend1: value.grossIncomeTrend[0],
                   dataTrendDirection1: value.grossIncomeTrend[1],
+                  dataTrend2: value.upcomingRentTrend[0],
+                  dataTrendDirection2: value.upcomingRentTrend[1],
                   dataTrend3: value.occupanyRateTrend[0],
                   dataTrendDirection3: value.occupanyRateTrend[1],
                   dataTrend4: value.totalBookingTrend[0],

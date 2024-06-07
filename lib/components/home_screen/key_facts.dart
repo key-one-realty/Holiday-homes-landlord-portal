@@ -5,7 +5,7 @@ import 'package:landlord_portal/components/shared/key_facts_data.dart';
 class KeyFacts extends StatelessWidget {
   const KeyFacts({
     super.key,
-    this.dataTitle1 = "Total Payout",
+    this.dataTitle1 = "Payout",
     this.dataValue1 = "AED 55,180",
     this.dataTrend1 = "",
     this.dataTrendDirection1 = "",
