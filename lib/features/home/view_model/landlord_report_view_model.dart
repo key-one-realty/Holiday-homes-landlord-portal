@@ -38,9 +38,9 @@ class LandlordProvider extends ChangeNotifier {
   String get totalRecentPayout => "$_totalRecentPayout";
 
   bool get isIncomeDataEmpty {
-    final _monthlyIncome = this._monthlyIncome;
-    if (_monthlyIncome != null) {
-      return _monthlyIncome.isEmpty;
+    final monthlyIncome = _monthlyIncome;
+    if (monthlyIncome != null) {
+      return monthlyIncome.isEmpty;
     } else {
       return true;
     }
@@ -88,50 +88,50 @@ class LandlordProvider extends ChangeNotifier {
   }
 
   String get payout {
-    final _monthlyFacts = this._monthlyFacts;
-    if (_monthlyFacts != null) {
-      return 'AED ${_monthlyFacts.totalPayout}';
+    final monthlyFacts = _monthlyFacts;
+    if (monthlyFacts != null) {
+      return 'AED ${monthlyFacts.totalPayout}';
     } else {
       return "";
     }
   }
 
   String get totalNetRental {
-    final _monthlyFacts = this._monthlyFacts;
+    final monthlyFacts = _monthlyFacts;
 
-    if (_monthlyFacts != null) {
-      return 'AED ${_monthlyFacts.totalNetRental}';
+    if (monthlyFacts != null) {
+      return 'AED ${monthlyFacts.totalNetRental}';
     } else {
       return "";
     }
   }
 
   String get avgOccupancyRate {
-    final _monthlyFacts = this._monthlyFacts;
+    final monthlyFacts = _monthlyFacts;
 
-    if (_monthlyFacts != null) {
-      return '${_monthlyFacts.avgOccupancyRate}';
+    if (monthlyFacts != null) {
+      return '${monthlyFacts.avgOccupancyRate}';
     } else {
       return "";
     }
   }
 
   String get avgNightsBooked {
-    final _monthlyFacts = this._monthlyFacts;
+    final monthlyFacts = _monthlyFacts;
 
-    if (_monthlyFacts != null) {
-      return '${_monthlyFacts.avgNightsBooked}';
+    if (monthlyFacts != null) {
+      return '${monthlyFacts.avgNightsBooked}';
     } else {
       return "";
     }
   }
 
   Map<String, dynamic> get payoutTrend {
-    final _landlordTrendsReport = this._landlordTrendsReport;
-    if (_landlordTrendsReport != null) {
+    final landlordTrendsReport = _landlordTrendsReport;
+    if (landlordTrendsReport != null) {
       return {
-        "trendValue": '${_landlordTrendsReport.totalPayoutTrend.trendChange}',
-        "trendDirection": _landlordTrendsReport.totalPayoutTrend.trendDirection
+        "trendValue": '${landlordTrendsReport.totalPayoutTrend.trendChange}',
+        "trendDirection": landlordTrendsReport.totalPayoutTrend.trendDirection
       };
     } else {
       return {"trendValue": "0", "trendDirection": "0"};
@@ -139,13 +139,12 @@ class LandlordProvider extends ChangeNotifier {
   }
 
   Map<String, dynamic> get totalNetRentalTrend {
-    final _landlordTrendsReport = this._landlordTrendsReport;
-    if (_landlordTrendsReport != null) {
+    final landlordTrendsReport = _landlordTrendsReport;
+    if (landlordTrendsReport != null) {
       return {
-        "trendValue":
-            '${_landlordTrendsReport.totalNetRentalTrend.trendChange}',
+        "trendValue": '${landlordTrendsReport.totalNetRentalTrend.trendChange}',
         "trendDirection":
-            _landlordTrendsReport.totalNetRentalTrend.trendDirection
+            landlordTrendsReport.totalNetRentalTrend.trendDirection
       };
     } else {
       return {"trendValue": "0", "trendDirection": "0"};
@@ -153,13 +152,13 @@ class LandlordProvider extends ChangeNotifier {
   }
 
   Map<String, dynamic> get avgOccupancyRateTrend {
-    final _landlordTrendsReport = this._landlordTrendsReport;
-    if (_landlordTrendsReport != null) {
+    final landlordTrendsReport = _landlordTrendsReport;
+    if (landlordTrendsReport != null) {
       return {
         "trendValue":
-            '${_landlordTrendsReport.avgOccupancyRateTrend.trendChange}',
+            '${landlordTrendsReport.avgOccupancyRateTrend.trendChange}',
         "trendDirection":
-            _landlordTrendsReport.avgOccupancyRateTrend.trendDirection
+            landlordTrendsReport.avgOccupancyRateTrend.trendDirection
       };
     } else {
       return {"trendValue": "0", "trendDirection": "0"};
@@ -167,13 +166,13 @@ class LandlordProvider extends ChangeNotifier {
   }
 
   Map<String, dynamic> get avgNightsBookedTrend {
-    final _landlordTrendsReport = this._landlordTrendsReport;
-    if (_landlordTrendsReport != null) {
+    final landlordTrendsReport = _landlordTrendsReport;
+    if (landlordTrendsReport != null) {
       return {
         "trendValue":
-            '${_landlordTrendsReport.avgNightsBookedTrend.trendChange}',
+            '${landlordTrendsReport.avgNightsBookedTrend.trendChange}',
         "trendDirection":
-            _landlordTrendsReport.avgNightsBookedTrend.trendDirection
+            landlordTrendsReport.avgNightsBookedTrend.trendDirection
       };
     } else {
       return {"trendValue": "0", "trendDirection": "0"};

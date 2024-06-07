@@ -32,10 +32,10 @@ class UserProvider extends ChangeNotifier {
   }
 
   String get closingBalance {
-    final _user = this._user;
+    final user = _user;
 
-    if (_user != null) {
-      return "AED ${_user.closingBalance}";
+    if (user != null) {
+      return "AED ${user.closingBalance}";
     } else {
       return "Loading...";
     }
