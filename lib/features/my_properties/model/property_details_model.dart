@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:landlord_portal/config/api.dart';
 import 'package:landlord_portal/features/my_properties/view_model/property_details_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class PropertyDetailsProvider extends ChangeNotifier {
   PropertyDetailsApiResponse? _propertyDetailsApiResponse;
@@ -191,6 +192,19 @@ class PropertyDetailsProvider extends ChangeNotifier {
       return [
         '${grossIncomeTrend.trendChange}',
         grossIncomeTrend.trendDirection
+      ];
+    } else {
+      return ["", ""];
+    }
+  }
+
+  List<String> get upcomingRentTrend {
+    if (_propertyTrendsReport != null) {
+      UpcomingBookingsTrend upcomingBookingsTrend =
+          _propertyTrendsReport!.upcomingBookingsTrend;
+      return [
+        '${upcomingBookingsTrend.trendChange}',
+        upcomingBookingsTrend.trendDirection
       ];
     } else {
       return ["", ""];

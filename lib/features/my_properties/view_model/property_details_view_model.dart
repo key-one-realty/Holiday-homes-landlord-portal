@@ -194,21 +194,23 @@ class PropertyTrendsReport {
   GrossIncomeTrend grossIncomeTrend;
   OccupanyRateTrend occupanyRateTrend;
   TotalBookingTrend totalBookingTrend;
+  UpcomingBookingsTrend upcomingBookingsTrend;
 
-  PropertyTrendsReport({
-    required this.grossIncomeTrend,
-    required this.occupanyRateTrend,
-    required this.totalBookingTrend,
-  });
+  PropertyTrendsReport(
+      {required this.grossIncomeTrend,
+      required this.occupanyRateTrend,
+      required this.totalBookingTrend,
+      required this.upcomingBookingsTrend});
 
   factory PropertyTrendsReport.fromJson(Map<String, dynamic> json) {
     return PropertyTrendsReport(
-      grossIncomeTrend: GrossIncomeTrend.fromJson(json['gross_income_trend']),
-      occupanyRateTrend:
-          OccupanyRateTrend.fromJson(json['occupany_rate_trend']),
-      totalBookingTrend:
-          TotalBookingTrend.fromJson(json['total_booking_trend']),
-    );
+        grossIncomeTrend: GrossIncomeTrend.fromJson(json['gross_income_trend']),
+        occupanyRateTrend:
+            OccupanyRateTrend.fromJson(json['occupany_rate_trend']),
+        totalBookingTrend:
+            TotalBookingTrend.fromJson(json['total_booking_trend']),
+        upcomingBookingsTrend:
+            UpcomingBookingsTrend.fromJson(json['upcoming_bookings_trend']));
   }
 }
 
@@ -240,6 +242,23 @@ class OccupanyRateTrend {
 
   factory OccupanyRateTrend.fromJson(Map<String, dynamic> json) {
     return OccupanyRateTrend(
+      trendChange: json['trend_change'],
+      trendDirection: json['trend_direction'],
+    );
+  }
+}
+
+class UpcomingBookingsTrend {
+  int trendChange;
+  String trendDirection;
+
+  UpcomingBookingsTrend({
+    required this.trendChange,
+    required this.trendDirection,
+  });
+
+  factory UpcomingBookingsTrend.fromJson(Map<String, dynamic> json) {
+    return UpcomingBookingsTrend(
       trendChange: json['trend_change'],
       trendDirection: json['trend_direction'],
     );

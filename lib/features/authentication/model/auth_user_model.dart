@@ -29,7 +29,7 @@ class UserModel {
   final String updatedAt;
   final String oneCId;
   final int? ownerId;
-  final double totalIncome;
+  final double closingBalance;
 
   UserModel({
     required this.id,
@@ -42,7 +42,7 @@ class UserModel {
     required this.updatedAt,
     required this.oneCId,
     this.ownerId,
-    required this.totalIncome,
+    required this.closingBalance,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -57,7 +57,7 @@ class UserModel {
       updatedAt: json['updated_at'],
       oneCId: json['one_c_id'],
       ownerId: json['owner_id'],
-      totalIncome: double.parse(json['total_income']),
+      closingBalance: double.parse(json['closing_balance']),
     );
   }
 }

@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:landlord_portal/features/authentication/model/auth_user_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:landlord_portal/features/authentication/model/auth_user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthPovider extends ChangeNotifier {
@@ -62,7 +61,7 @@ class AuthPovider extends ChangeNotifier {
       if (response.statusCode == 200) {
         //Request was successful
         // Process the data
-        // print(data);
+        debugPrint('$data');
         _loginResponse = AuthUserModel.fromJson(jsonDecode(response.body));
         _user = _loginResponse!.user;
         SharedPreferences prefs = await SharedPreferences.getInstance();

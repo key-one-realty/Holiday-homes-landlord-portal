@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:landlord_portal/components/shared/view_model/shared_component_model.dart';
 import 'package:landlord_portal/features/authentication/view_model/auth_provider.dart';
+import 'package:landlord_portal/features/home/view_model/landlord_report_view_model.dart';
+import 'package:landlord_portal/features/home/view_model/user_view_model.dart';
 import 'package:landlord_portal/features/my_properties/model/property_details_model.dart';
 import 'package:landlord_portal/features/my_properties/model/property_model.dart';
 import 'package:landlord_portal/features/splash_screen/splash_screen.dart';
@@ -15,6 +17,12 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (content) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (content) => LandlordProvider(),
+        ),
         ChangeNotifierProvider(
           create: (content) => PropertyDetailsProvider(),
         ),
