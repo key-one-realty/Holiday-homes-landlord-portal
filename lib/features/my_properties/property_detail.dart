@@ -342,6 +342,9 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     value.occupancyRate == "0%" &&
                     value.totalNightsBooked == "0",
                 cardHeader: '${value.latestMonth} Facts',
+                trailing: true,
+                tooltipText:
+                    "The values below represent the facts for the current month only",
                 customHeight: 316,
                 child: KeyFacts(
                   dataValue1: value.grossIncome,
@@ -374,6 +377,10 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       SfDateRangePicker(
                         view: DateRangePickerView.month,
                         selectionMode: DateRangePickerSelectionMode.multiRange,
+                        selectionShape: DateRangePickerSelectionShape.rectangle,
+                        extendableRangeSelectionDirection:
+                            ExtendableRangeSelectionDirection.none,
+                        toggleDaySelection: false,
                         monthViewSettings:
                             const DateRangePickerMonthViewSettings(
                                 firstDayOfWeek: 1),
@@ -387,15 +394,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        // monthCellStyle: const DateRangePickerMonthCellStyle(
-                        //   textStyle: TextStyle(
-                        //     color: kTextColor,
-                        //     fontSize: 14,
-                        //     fontFamily: 'Inter',
-                        //     fontWeight: FontWeight.w400,
-                        //   ),
-                        // ),
-                        minDate: DateTime(2024, 1, 1),
+                        minDate: value.minCalendarDate,
+                        maxDate: value.maxCalendarDate,
                         initialDisplayDate: DateTime.now(),
                         startRangeSelectionColor: kPrimaryColor,
                         endRangeSelectionColor: kPrimaryColor,

@@ -245,6 +245,43 @@ class PropertyDetailsProvider extends ChangeNotifier {
     }
   }
 
+  DateTime get minCalendarDate {
+    DateTime now = DateTime.now();
+    DateTime minCalendaDate = DateTime(now.year, now.month, 1);
+    if (_monthlyBookings != null) {
+      // MonthlyBooking bookings = _monthlyBookings;
+      if (_monthlyBookings!.isNotEmpty) {
+        MonthlyBooking firstBooking = _monthlyBookings![0];
+        String firstBookingDate = firstBooking.bookingDate;
+        List<String> datesPart = firstBookingDate.split("/");
+        minCalendaDate = DateTime(
+            int.parse("20${datesPart[2]}"), int.parse(datesPart[1]), 1);
+      }
+    }
+    debugPrint('$minCalendaDate');
+    return minCalendaDate;
+  }
+
+  DateTime get maxCalendarDate {
+    DateTime now = DateTime.now();
+
+    DateTime maxCalendarDate = DateTime(now.year, now.month + 1, 1);
+
+    if (_transactionDetails != null) {
+      List<BookingDate> bookingDates = _transactionDetails!.bookingDates;
+      if (bookingDates.isNotEmpty) {
+        BookingDate lastBookedDate = bookingDates[bookingDates.length - 1];
+        String lastCheckOut = lastBookedDate.checkOut;
+        List<String> datesPart = lastCheckOut.split("/");
+
+        maxCalendarDate = DateTime(
+            int.parse("20${datesPart[2]}"), int.parse(datesPart[1]), 30);
+      }
+    }
+
+    return maxCalendarDate;
+  }
+
   String get currentMonth {
     DateTime now = DateTime.now();
 

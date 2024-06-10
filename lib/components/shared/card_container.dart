@@ -6,19 +6,21 @@ import 'package:landlord_portal/config/helpers/loading_icon.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CardContainer extends StatelessWidget {
-  const CardContainer(
-      {super.key,
-      required this.child,
-      required this.cardHeader,
-      this.customHeight,
-      this.trailing = false,
-      this.hasBtn = false,
-      this.trailingWidgetText = 'AED',
-      this.trailingWidgetBackground = kSecondaryColor,
-      this.buttonText = 'See All',
-      this.onPressed,
-      this.isLoading = false,
-      this.isEmpty = false});
+  const CardContainer({
+    super.key,
+    required this.child,
+    required this.cardHeader,
+    this.customHeight,
+    this.trailing = false,
+    this.hasBtn = false,
+    this.trailingWidgetText = 'AED',
+    this.trailingWidgetBackground = kSecondaryColor,
+    this.buttonText = 'See All',
+    this.onPressed,
+    this.isLoading = false,
+    this.isEmpty = false,
+    this.tooltipText = "",
+  });
 
   final Widget child;
   final double? customHeight;
@@ -31,6 +33,7 @@ class CardContainer extends StatelessWidget {
   final void Function()? onPressed;
   final bool isLoading;
   final bool isEmpty;
+  final String tooltipText;
 
   Widget get containerState {
     if (isEmpty) {
@@ -74,8 +77,10 @@ class CardContainer extends StatelessWidget {
     }
   }
 
-  Container? get trailingWidget => trailing
-      ? Container(
+  Widget? get trailingWidget {
+    if (trailing) {
+      if (tooltipText == "") {
+        return Container(
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
             color: trailingWidgetBackground,
@@ -96,8 +101,24 @@ class CardContainer extends StatelessWidget {
               ),
             ),
           ),
-        )
-      : null;
+        );
+      } else {
+        return Tooltip(
+          preferBelow: false,
+          message: tooltipText,
+          padding: const EdgeInsets.all(7.0),
+          textStyle: const TextStyle(
+            fontSize: 11.0,
+            color: kTextPrimaryColor,
+          ),
+          textAlign: TextAlign.center,
+          child: const Icon(Icons.info_outline),
+        );
+      }
+    } else {
+      return null;
+    }
+  }
 
   CardButton? get cardButton => hasBtn
       ? CardButton(

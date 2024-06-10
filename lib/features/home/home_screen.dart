@@ -134,7 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   // isEmpty: true,
                   isLoading: landlordValue.isLoading,
                   cardHeader: '${landlordValue.currentMonth} Facts',
-                  customHeight: 316,
+                  customHeight: 323,
+                  trailing: true,
+                  tooltipText:
+                      "The values below represent the facts for the current month only",
                   child: KeyFacts(
                     dataTitle1: "Payout",
                     dataValue1: landlordValue.payout,
