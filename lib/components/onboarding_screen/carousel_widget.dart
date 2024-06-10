@@ -12,18 +12,18 @@ class CarouselWidget extends StatefulWidget {
     {
       'title': 'Welcome Aboard!',
       'description':
-          "Let's get started on simplifying your holiday home management! Follow these easy steps to set up your account and discover how effortless and rewarding renting out your property can be with Key One Holiday Homes!",
+          "Let's get started on simplifying your holiday home management! Login with your details and discover how effortless and rewarding renting out your property can be with Key One Holiday Homes!",
     },
     {
-      'title': 'Manage Your Properties',
+      'title': 'Assess Your Property Account',
       'description':
-          'Add, edit, and remove properties with ease. Keep track of all your properties in one place.',
+          'See how much you have made with Key One Holiday Homes in one place.',
       'image': 'assets/images/onboarding_pic.png'
     },
     {
-      'title': 'Manage Your Tenants',
+      'title': 'Monitor Your Property Bookings',
       'description':
-          'Add, edit, and remove tenants with ease. Keep track of all your tenants in one place.',
+          'Keep track of your occupancy rate and view your booking details.',
       'image': 'assets/images/onboarding_pic.png'
     },
   ];

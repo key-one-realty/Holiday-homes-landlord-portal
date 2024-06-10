@@ -42,7 +42,7 @@ class LandlordProvider extends ChangeNotifier {
     if (monthlyIncome != null) {
       return monthlyIncome.isEmpty;
     } else {
-      return true;
+      return false;
     }
   }
 

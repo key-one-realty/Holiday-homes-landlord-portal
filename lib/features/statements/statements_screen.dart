@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:landlord_portal/components/home_screen/key_facts.dart";
-import "package:landlord_portal/components/shared/custom_app_bar.dart";
 import "package:landlord_portal/components/shared/border_line.dart";
 import "package:landlord_portal/components/shared/card_container.dart";
+import "package:landlord_portal/components/shared/custom_app_bar.dart";
 import "package:landlord_portal/components/shared/personal_manager.dart";
 import "package:landlord_portal/components/statements/payout_card.dart";
 import "package:landlord_portal/components/statements/statement_card.dart";
@@ -37,7 +37,7 @@ class StatementSreen extends StatelessWidget {
             ),
             CardContainer(
               cardHeader: 'Key Facts',
-              customHeight: 316,
+              customHeight: 325,
               child: KeyFacts(),
             ),
             PersonalManager(),
