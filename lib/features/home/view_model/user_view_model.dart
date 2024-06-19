@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:landlord_portal/config/api.dart';
 import 'package:landlord_portal/features/home/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,11 +32,65 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String get firstname {
+    if (_user != null) {
+      String firstName = _user!.name.split(" ").first;
+      return firstName;
+    } else {
+      return "User";
+    }
+  }
+
+  String formatNumberToPrice(num number) {
+    final formatCurrency = NumberFormat.currency(
+      locale: 'en_US',
+      symbol: '',
+      decimalDigits: 1,
+    );
+    return formatCurrency.format(number);
+  }
+
+  String get landlordName {
+    if (_user != null) {
+      String name = _user!.name;
+      return name;
+    } else {
+      return "Loading...";
+    }
+  }
+
+  String get landlordEmail {
+    if (_user != null) {
+      String email = _user!.email;
+      return email;
+    } else {
+      return "Loading...";
+    }
+  }
+
+  String get landlordPhoneNumber {
+    if (_user != null) {
+      String phoneNumber = _user!.phoneNumber;
+      return phoneNumber;
+    } else {
+      return "Loading...";
+    }
+  }
+
+  bool get showBookingPlatform {
+    if (_user != null) {
+      int showBookingPlatform = _user!.showBookingPlatform;
+      return showBookingPlatform == 1;
+    } else {
+      return true;
+    }
+  }
+
   String get closingBalance {
     final user = _user;
 
     if (user != null) {
-      return "AED ${user.closingBalance}";
+      return "AED ${formatNumberToPrice(user.closingBalance)}";
     } else {
       return "Loading...";
     }
@@ -47,7 +102,7 @@ class UserProvider extends ChangeNotifier {
     final currentTime = DateTime.now().millisecondsSinceEpoch;
 
     // Check if the last request was made more than 6 hours ago
-    if (currentTime - lastRequestTime > 6 * 60 * 60 * 1000) {
+    if (currentTime - lastRequestTime > 5 * 1000) {
       // Cancel any existing timer
       _timer?.cancel();
 
@@ -58,7 +113,7 @@ class UserProvider extends ChangeNotifier {
       await prefs.setInt('lastRequestTime', currentTime);
 
       // Schedule a new timer to reset the last request time after 6 hours
-      _timer = Timer(const Duration(hours: 6), () {
+      _timer = Timer(const Duration(minutes: 1), () {
         prefs.remove('lastRequestTime');
       });
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/components/shared/card_button.dart';
 import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/config/helpers/bar_chart_loading.dart';
@@ -38,23 +39,23 @@ class CardContainer extends StatelessWidget {
   Widget get containerState {
     if (isEmpty) {
       return Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: EdgeInsets.all(12.0.r),
         child: Text(
           "No ${cardHeader.toLowerCase()} available at the moment",
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Color(0xFF1D1D25),
-            fontSize: 16,
+          style: TextStyle(
+            color: const Color(0xFF1D1D25),
+            fontSize: 16.sp,
             fontFamily: 'Inter',
             fontWeight: FontWeight.w400,
           ),
         ),
       );
     } else if (isLoading) {
-      if (cardHeader.toLowerCase() == "income") {
+      if (cardHeader.toLowerCase() == "payouts") {
         return SizedBox(
-          width: 300.0,
-          height: 250.0,
+          width: 300.0.r,
+          height: 250.0.r,
           child: Shimmer.fromColors(
             baseColor: Colors.white70,
             highlightColor: Colors.grey,
@@ -63,8 +64,8 @@ class CardContainer extends StatelessWidget {
         );
       } else {
         return SizedBox(
-          width: 300.0,
-          height: 100.0,
+          width: 300.0.r,
+          height: 100.0.r,
           child: Shimmer.fromColors(
             baseColor: Colors.white70,
             highlightColor: Colors.grey,
@@ -81,23 +82,23 @@ class CardContainer extends StatelessWidget {
     if (trailing) {
       if (tooltipText == "") {
         return Container(
-          padding: const EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0.r),
           decoration: BoxDecoration(
             color: trailingWidgetBackground,
             shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(4),
+            borderRadius: BorderRadius.all(
+              Radius.circular(4.r),
             ),
           ),
           child: Center(
             child: Text(
               trailingWidgetText,
-              style: const TextStyle(
+              style: TextStyle(
                 color: kTextSecondaryColor,
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w700,
-                height: 0.05,
+                height: 0.05.r,
               ),
             ),
           ),
@@ -106,9 +107,9 @@ class CardContainer extends StatelessWidget {
         return Tooltip(
           preferBelow: false,
           message: tooltipText,
-          padding: const EdgeInsets.all(7.0),
-          textStyle: const TextStyle(
-            fontSize: 11.0,
+          padding: EdgeInsets.all(7.0.r),
+          textStyle: TextStyle(
+            fontSize: 11.0.sp,
             color: kTextPrimaryColor,
           ),
           textAlign: TextAlign.center,
@@ -130,25 +131,25 @@ class CardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(14.0),
+      padding: EdgeInsets.all(14.0.r),
       child: SizedBox(
         height: customHeight ?? customHeight,
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             shape: BoxShape.rectangle,
             boxShadow: [
               BoxShadow(
-                color: Color(0x0F000000),
-                blurRadius: 20,
-                offset: Offset(0, 4),
+                color: const Color(0x0F000000),
+                blurRadius: 20.r,
+                offset: Offset(0, 4.r),
               ),
             ],
             borderRadius: BorderRadius.all(
-              Radius.circular(20),
+              Radius.circular(20.r),
             ),
           ),
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -157,9 +158,9 @@ class CardContainer extends StatelessWidget {
                 children: [
                   Text(
                     cardHeader,
-                    style: const TextStyle(
-                      color: Color(0xFF1D1D25),
-                      fontSize: 24,
+                    style: TextStyle(
+                      color: const Color(0xFF1D1D25),
+                      fontSize: 24.sp,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
                     ),
@@ -167,6 +168,7 @@ class CardContainer extends StatelessWidget {
                   trailingWidget ?? Container(),
                 ],
               ),
+              5.verticalSpace,
               containerState,
               cardButton ?? Container(),
             ],

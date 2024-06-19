@@ -43,8 +43,8 @@ class MonthlyFacts {
     return MonthlyFacts(
       totalPayout: json['total_payout'].toDouble(),
       totalNetRental: json['total_net_rental'].toDouble(),
-      avgOccupancyRate: json['avg_occupancy_rate'],
-      avgNightsBooked: json['avg_nights_booked'],
+      avgOccupancyRate: json['avg_occupancy_rate'].toInt(),
+      avgNightsBooked: json['avg_nights_booked'].toInt(),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:landlord_portal/components/shared/restore_credentials.dart';
+// import 'package:landlord_portal/components/shared/restore_credentials.dart';
 import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/features/authentication/login.dart';
 
@@ -115,7 +115,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -141,7 +141,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
             ),
           ),
         ),
-        const RestoreCredentials(),
+        // const RestoreCredentials(),
       ],
     );
   }

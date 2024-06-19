@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/config/colors.dart';
 
 class AnnouncementCard extends StatelessWidget {
@@ -21,14 +22,14 @@ class AnnouncementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       // width: 303,
-      height: 100,
+      height: 100.r,
       child: Column(
         children: [
           Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 48.r,
+                height: 48.r,
                 decoration: ShapeDecoration(
                   image: DecorationImage(
                     image: profileImage,
@@ -37,11 +38,9 @@ class AnnouncementCard extends StatelessWidget {
                   shape: const OvalBorder(),
                 ),
               ),
-              const SizedBox(
-                width: 12,
-              ),
+              12.horizontalSpace,
               SizedBox(
-                width: MediaQuery.of(context).size.width - 141,
+                width: MediaQuery.of(context).size.width - 141.r,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,39 +50,37 @@ class AnnouncementCard extends StatelessWidget {
                       children: [
                         Text(
                           sender,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: kTextColor,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w600,
-                            height: 0.10,
+                            height: 0.10.r,
                           ),
                         ),
                         Text(
                           timeStamp,
-                          style: const TextStyle(
-                            color: Color(0xFF808D9E),
-                            fontSize: 14,
+                          style: TextStyle(
+                            color: const Color(0xFF808D9E),
+                            fontSize: 14.sp,
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w400,
-                            height: 0.11,
-                            letterSpacing: -0.50,
+                            height: 0.11.r,
+                            letterSpacing: -0.50.r,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    20.verticalSpace,
                     Text(
                       announcementDescription,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: kTextColor,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w400,
-                        height: 0.11,
-                        letterSpacing: -0.50,
+                        height: 0.11.r,
+                        letterSpacing: -0.50.r,
                       ),
                     ),
                   ],
@@ -91,22 +88,18 @@ class AnnouncementCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          20.verticalSpace,
           Container(
-            width: MediaQuery.of(context).size.width - 28,
-            height: 1,
+            width: MediaQuery.of(context).size.width - 28.r,
+            height: 1.r,
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
               color: const Color(0xFFE9ECF2),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(1)),
+                  borderRadius: BorderRadius.circular(1.r)),
             ),
           ),
-          const SizedBox(
-            height: 28.0,
-          ),
+          28.verticalSpace,
         ],
       ),
     );

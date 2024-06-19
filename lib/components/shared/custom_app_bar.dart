@@ -1,7 +1,8 @@
-import 'package:badges/badges.dart' as badge;
+// import 'package:badges/badges.dart' as badge;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/config/colors.dart';
-import 'package:landlord_portal/features/notifications/notification_screen.dart';
+// import 'package:landlord_portal/features/notifications/notification_screen.dart';
 import 'package:landlord_portal/features/profile/profile_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -37,9 +38,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         appBarTitle,
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white,
-          fontSize: 18,
+          fontSize: 18.sp,
           fontFamily: 'Inter',
           fontWeight: FontWeight.w500,
           height: 0,
@@ -60,34 +61,34 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               Navigator.pop(context);
             }
           }),
-      actions: [
-        badge.Badge(
-          position: badge.BadgePosition.topEnd(top: 6, end: 8),
-          stackFit: StackFit.passthrough,
-          badgeContent: Container(
-            width: 3,
-            height: 3,
-            decoration: const ShapeDecoration(
-              color: Color(0xFFEB3D5E),
-              shape: OvalBorder(),
-            ),
-          ),
-          child: IconButton(
-            icon: Icon(iconData, color: Colors.white),
-            onPressed: () {
-              // Scaffold.of(context).openDrawer();
-              if (appBarTitle != "Notifications") {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NotificationScreen()));
-              } else {
-                Navigator.pop(context);
-              }
-            },
-          ),
-        ),
-      ],
+      // actions: [
+      //   badge.Badge(
+      //     position: badge.BadgePosition.topEnd(top: 6.r, end: 8.r),
+      //     stackFit: StackFit.passthrough,
+      //     badgeContent: Container(
+      //       width: 3.r,
+      //       height: 3.r,
+      //       decoration: const ShapeDecoration(
+      //         color: Color(0xFFEB3D5E),
+      //         shape: OvalBorder(),
+      //       ),
+      //     ),
+      //     child: IconButton(
+      //       icon: Icon(iconData, color: Colors.white),
+      //       onPressed: () {
+      //         // Scaffold.of(context).openDrawer();
+      //         if (appBarTitle != "Notifications") {
+      //           Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                   builder: (context) => const NotificationScreen()));
+      //         } else {
+      //           Navigator.pop(context);
+      //         }
+      //       },
+      //     ),
+      //   ),
+      // ],
     );
   }
 }

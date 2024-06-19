@@ -35,7 +35,22 @@ class LandlordProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get totalRecentPayout => "$_totalRecentPayout";
+  String formatNumberToPrice(num number) {
+    final formatCurrency = NumberFormat.currency(
+      locale: 'en_US',
+      symbol: '',
+      decimalDigits: 1,
+    );
+    return formatCurrency.format(number);
+  }
+
+  String get totalRecentPayout {
+    if (_totalRecentPayout != null) {
+      return formatNumberToPrice(_totalRecentPayout!);
+    } else {
+      return "Loading...";
+    }
+  }
 
   bool get isIncomeDataEmpty {
     final monthlyIncome = _monthlyIncome;
@@ -90,7 +105,7 @@ class LandlordProvider extends ChangeNotifier {
   String get payout {
     final monthlyFacts = _monthlyFacts;
     if (monthlyFacts != null) {
-      return 'AED ${monthlyFacts.totalPayout}';
+      return 'AED ${formatNumberToPrice(monthlyFacts.totalPayout)}';
     } else {
       return "";
     }
@@ -100,7 +115,7 @@ class LandlordProvider extends ChangeNotifier {
     final monthlyFacts = _monthlyFacts;
 
     if (monthlyFacts != null) {
-      return 'AED ${monthlyFacts.totalNetRental}';
+      return 'AED ${formatNumberToPrice(monthlyFacts.totalNetRental)}';
     } else {
       return "";
     }
@@ -110,7 +125,7 @@ class LandlordProvider extends ChangeNotifier {
     final monthlyFacts = _monthlyFacts;
 
     if (monthlyFacts != null) {
-      return '${monthlyFacts.avgOccupancyRate}';
+      return '${monthlyFacts.avgOccupancyRate}%';
     } else {
       return "";
     }

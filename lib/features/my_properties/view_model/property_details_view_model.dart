@@ -24,14 +24,15 @@ class PropertyDetailsData {
   final PropertyIncome propertyIncome;
   PropertyTrendsReport propertyTrendsReport;
   List<MonthlyBooking> monthlyBooking;
+  final double totalRecentPayout;
 
-  PropertyDetailsData({
-    required this.transactionDetails,
-    required this.propertyDetailsScreenBody,
-    required this.propertyIncome,
-    required this.propertyTrendsReport,
-    required this.monthlyBooking,
-  });
+  PropertyDetailsData(
+      {required this.transactionDetails,
+      required this.propertyDetailsScreenBody,
+      required this.propertyIncome,
+      required this.propertyTrendsReport,
+      required this.monthlyBooking,
+      required this.totalRecentPayout});
 
   factory PropertyDetailsData.fromJson(Map<String, dynamic> json) {
     return PropertyDetailsData(
@@ -44,6 +45,7 @@ class PropertyDetailsData {
           PropertyTrendsReport.fromJson(json['property_trends_report']),
       monthlyBooking: List<MonthlyBooking>.from(
           json['monthly_booking'].map((x) => MonthlyBooking.fromJson(x))),
+      totalRecentPayout: json["total_recent_payout"].toDouble(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/components/home_screen/custom_bar_chart.dart';
 // import 'package:landlord_portal/components/home_screen/custom_bar_chart.dart';
 import 'package:landlord_portal/components/home_screen/key_facts.dart';
@@ -11,6 +12,7 @@ import 'package:landlord_portal/features/authentication/view_model/auth_provider
 import 'package:landlord_portal/features/home/view_model/landlord_report_view_model.dart';
 import 'package:landlord_portal/features/home/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,19 +22,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future<int> getuserId() async {
+    int userId = context.read<AuthPovider>().userId;
+
+    if (userId == 0) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      userId = prefs.getInt('userId')!;
+    }
+
+    if (mounted) {
+      context.read<LandlordProvider>().getLandlordReport(userId);
+      context.read<UserProvider>().handleGetUserCaching(userId);
+    }
+
+    return userId;
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    final userId = context.read<AuthPovider>().userId;
-
-    context.read<LandlordProvider>().getLandlordReport(userId);
-    context.read<UserProvider>().handleGetUserCaching(userId);
+    getuserId();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthPovider>(
+    return Consumer<UserProvider>(
       builder: (context, value, child) => Scaffold(
         appBar: CustomAppBar(
           appBarTitle: 'Hi ${value.firstname}!',
@@ -48,27 +62,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(24.0),
+                        padding: EdgeInsets.all(24.0.r),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Consumer<UserProvider>(
                               builder: (c, userValue, ch) => Text(
                                 userValue.closingBalance,
-                                style: const TextStyle(
-                                  color: Color(0xFFEFF1EE),
-                                  fontSize: 30,
+                                style: TextStyle(
+                                  color: const Color(0xFFEFF1EE),
+                                  fontSize: 30.sp,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w900,
                                   height: 0,
                                 ),
                               ),
                             ),
-                            const Text(
+                            Text(
                               'closing balance',
                               style: TextStyle(
-                                color: Color(0xFFEFF1EE),
-                                fontSize: 14,
+                                color: const Color(0xFFEFF1EE),
+                                fontSize: 14.sp,
                                 fontFamily: 'Inter',
                                 fontWeight: FontWeight.w500,
                                 height: 0,
@@ -85,43 +99,39 @@ class _HomeScreenState extends State<HomeScreen> {
                     CardContainer(
                       isEmpty: landlordValue.isIncomeDataEmpty,
                       isLoading: landlordValue.isLoading,
-                      customHeight: 361,
-                      cardHeader: 'Income',
+                      customHeight: 361.r,
+                      cardHeader: 'Payouts',
                       trailing: true,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Total Recent Payout',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xFF7E8BA0),
-                              fontSize: 14,
+                              color: const Color(0xFF7E8BA0),
+                              fontSize: 14.sp,
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w400,
-                              height: 0.11,
-                              letterSpacing: -0.50,
+                              height: 0.11.r,
+                              letterSpacing: -0.50.sp,
                             ),
                           ),
-                          const SizedBox(
-                            height: 30.0,
-                          ),
+                          30.verticalSpace,
                           Text(
                             landlordValue.totalRecentPayout,
-                            style: const TextStyle(
-                              color: Color(0xFF232A41),
-                              fontSize: 36,
+                            style: TextStyle(
+                              color: const Color(0xFF232A41),
+                              fontSize: 36.sp,
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w800,
-                              height: 0.03,
-                              letterSpacing: -0.36,
+                              height: 0.03.r,
+                              letterSpacing: -0.36.sp,
                             ),
                           ),
-                          const SizedBox(
-                            height: 30.0,
-                          ),
+                          30.verticalSpace,
                           SizedBox(
-                            height: 200.0,
+                            height: 200.0.r,
                             child: CustomBarChart(
                                 incomeData: landlordValue.incomeData),
                           ),
@@ -134,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // isEmpty: true,
                   isLoading: landlordValue.isLoading,
                   cardHeader: '${landlordValue.currentMonth} Facts',
-                  customHeight: 323,
+                  customHeight: 323.r,
                   trailing: true,
                   tooltipText:
                       "The values below represent the facts for the current month only",
@@ -164,17 +174,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const PersonalManager(),
-                const CardContainer(
+                CardContainer(
                   isEmpty: true,
                   hasBtn: false,
                   buttonText: "See All Messages",
                   cardHeader: 'Announcements',
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 28.0,
-                      ),
-                      AnnouncementCard(
+                      28.verticalSpace,
+                      const AnnouncementCard(
                         sender: 'Kaspar Eckhard',
                         timeStamp: '2 hours ago',
                         announcementDescription:
@@ -182,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         profileImage:
                             AssetImage('assets/images/manager_profile.jpeg'),
                       ),
-                      AnnouncementCard(
+                      const AnnouncementCard(
                         profileImage:
                             AssetImage('assets/images/keyone_logo_dark.png'),
                         sender: "Key One Realty",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/components/shared/key_facts_data.dart';
 
 class KeyFacts extends StatelessWidget {
@@ -46,9 +47,9 @@ class KeyFacts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        top: 20.0,
-        bottom: 20.0,
+      padding: EdgeInsets.only(
+        top: 20.0.r,
+        bottom: 20.0.r,
       ),
       // width: MediaQuery.of(context).size.width + 10,
       // height: 316,
@@ -72,24 +73,20 @@ class KeyFacts extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 24.0,
-          ),
+          24.verticalSpace,
           Container(
             width: MediaQuery.of(context).size.width,
-            decoration: const ShapeDecoration(
+            decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  width: 1,
+                  width: 1.r,
                   strokeAlign: BorderSide.strokeAlignCenter,
-                  color: Color(0xFFE9ECF2),
+                  color: const Color(0xFFE9ECF2),
                 ),
               ),
             ),
           ),
-          const SizedBox(
-            height: 24.0,
-          ),
+          24.verticalSpace,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

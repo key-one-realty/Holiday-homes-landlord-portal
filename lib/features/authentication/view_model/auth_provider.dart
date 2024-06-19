@@ -34,6 +34,15 @@ class AuthPovider extends ChangeNotifier {
     }
   }
 
+  bool get showBookingPlatform {
+    if (_user != null) {
+      int showBookingPlatform = _user!.showBookingPlatform;
+      return showBookingPlatform == 1;
+    } else {
+      return true;
+    }
+  }
+
   final String? _apiKey = dotenv.env['BASE_API_URL'];
   Map<String, String>? header = {
     'Content-Type': 'application/json; charset=UTF-8',
@@ -49,9 +58,20 @@ class AuthPovider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
+  bool isSuccess = false;
+
+  set setIsLoading(bool isLoadingValue) {
+    _isLoading = isLoadingValue;
+    notifyListeners();
+  }
+
   Future<bool> login(String email, String password) async {
     try {
-      setLoading(true);
+      setIsLoading = true;
       final url = Uri.parse("${_apiKey!}/login");
       Object? payload =
           jsonEncode(<String, String>{'email': email, 'password': password});
@@ -66,6 +86,7 @@ class AuthPovider extends ChangeNotifier {
         _user = _loginResponse!.user;
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("accessToken", _loginResponse!.accessToken);
+        prefs.setInt("userId", _user!.id);
         Fluttertoast.showToast(
           msg: "Logged in Successfully",
           toastLength: Toast.LENGTH_SHORT,
@@ -75,17 +96,15 @@ class AuthPovider extends ChangeNotifier {
           textColor: Colors.white,
           fontSize: 16.0,
         );
-        setLoading(false);
-        setSuccess(true);
+        setIsLoading = false;
         notifyListeners();
         return _loginResponse!.success;
       } else {
-        setLoading(false);
-        setSuccess(false);
+        setIsLoading = false;
         throw Exception(data['message']);
       }
     } catch (e) {
-      setLoading(false);
+      setIsLoading = false;
       Fluttertoast.showToast(
           msg: "$e",
           toastLength: Toast.LENGTH_SHORT,
