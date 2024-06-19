@@ -30,34 +30,35 @@ class UserModel {
   final String oneCId;
   final int? ownerId;
   final double closingBalance;
+  final int showBookingPlatform;
 
-  UserModel({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phoneNumber,
-    this.emailVerifiedAt,
-    required this.lastLoggedIn,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.oneCId,
-    this.ownerId,
-    required this.closingBalance,
-  });
+  UserModel(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.phoneNumber,
+      this.emailVerifiedAt,
+      required this.lastLoggedIn,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.oneCId,
+      this.ownerId,
+      required this.closingBalance,
+      required this.showBookingPlatform});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phoneNumber: json['phone_number'],
-      emailVerifiedAt: json['email_verified_at'],
-      lastLoggedIn: json['last_logged_in'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      oneCId: json['one_c_id'],
-      ownerId: json['owner_id'],
-      closingBalance: double.parse(json['closing_balance']),
-    );
+        id: json['id'],
+        name: json['name'],
+        email: json['email'],
+        phoneNumber: json['phone_number'],
+        emailVerifiedAt: json['email_verified_at'],
+        lastLoggedIn: json['last_logged_in'],
+        createdAt: json['created_at'],
+        updatedAt: json['updated_at'],
+        oneCId: json['one_c_id'],
+        ownerId: json['owner_id'],
+        closingBalance: double.parse(json['closing_balance']),
+        showBookingPlatform: json['show_booking_platform']);
   }
 }

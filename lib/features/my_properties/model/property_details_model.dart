@@ -43,6 +43,15 @@ class PropertyDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String formatNumberToPrice(num number) {
+    final formatCurrency = NumberFormat.currency(
+      locale: 'en_US',
+      symbol: '',
+      decimalDigits: 0,
+    );
+    return formatCurrency.format(number);
+  }
+
   String get displayImageUrl {
     if (_propertyDetailsBody != null) {
       return _propertyDetailsBody!.displayImage;
@@ -297,19 +306,18 @@ class PropertyDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void setLoading(bool isLoading) {
-  //   isLoading = isLoading;
-  //   notifyListeners();
-  // }
-
-  // void setSuccess(bool isSuccess) {
-  //   isSuccess = isSuccess;
-  //   notifyListeners();
-  // }
+  String get totalRecentPayout {
+    if (_propertyDetailsData != null) {
+      return formatNumberToPrice(_propertyDetailsData!.totalRecentPayout);
+    } else {
+      return "Loading...";
+    }
+  }
 
   Future<bool> getPropertyDetails(int userId, String projectId) async {
     try {
       // setLoading(true);
+      setIsLoading = true;
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("accessToken");
@@ -348,8 +356,8 @@ class PropertyDetailsProvider extends ChangeNotifier {
         setIsLoading = false;
         throw Exception(data["message"]);
       }
-    } catch (e) {
-      debugPrint('$e');
+    } catch (e, stackTrace) {
+      debugPrint('$e stackTrace: $stackTrace');
       // setIsSuccess = false;
       Fluttertoast.showToast(
         msg: "$e",

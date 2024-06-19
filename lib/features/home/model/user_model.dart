@@ -27,6 +27,7 @@ class User {
   String oneCId;
   dynamic ownerId;
   double closingBalance;
+  final int showBookingPlatform;
 
   User({
     required this.id,
@@ -40,6 +41,7 @@ class User {
     required this.oneCId,
     required this.ownerId,
     required this.closingBalance,
+    required this.showBookingPlatform,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -55,6 +57,7 @@ class User {
       oneCId: json['one_c_id'],
       ownerId: json['owner_id'],
       closingBalance: json['closing_balance'].toDouble(),
+      showBookingPlatform: json['show_booking_platform'],
     );
   }
 }

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:landlord_portal/components/home_screen/custom_bar_chart.dart";
 import "package:landlord_portal/components/home_screen/key_facts.dart";
 import "package:landlord_portal/components/my_properties/bookings_card.dart";
@@ -10,6 +11,7 @@ import "package:landlord_portal/features/authentication/view_model/auth_provider
 import "package:landlord_portal/features/my_properties/model/property_details_model.dart";
 import "package:landlord_portal/features/my_properties/view_model/property_details_view_model.dart";
 import "package:provider/provider.dart";
+import "package:shared_preferences/shared_preferences.dart";
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class PropertyDetails extends StatefulWidget {
@@ -25,15 +27,28 @@ class PropertyDetails extends StatefulWidget {
 }
 
 class _PropertyDetailsState extends State<PropertyDetails> {
+  Future<int> getuserId() async {
+    int userId = context.read<AuthPovider>().userId;
+
+    if (userId == 0) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      userId = prefs.getInt('userId')!;
+    }
+
+    if (mounted) {
+      context
+          .read<PropertyDetailsProvider>()
+          .getPropertyDetails(userId, widget.projectId);
+    }
+
+    return userId;
+  }
+
   @override
   void initState() {
     super.initState();
-
     // call the getUserProperty API
-    final userId = context.read<AuthPovider>().userId;
-    context
-        .read<PropertyDetailsProvider>()
-        .getPropertyDetails(userId, widget.projectId);
+    getuserId();
   }
 
   List<PickerDateRange>? get bookedDateList {
@@ -148,47 +163,47 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: 250,
+                    height: 250.r,
                     decoration: ShapeDecoration(
                       image: DecorationImage(
                         image: NetworkImage(value.displayImageUrl),
                         fit: BoxFit.cover,
                       ),
-                      shape: const RoundedRectangleBorder(
+                      shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(20.r),
+                        bottomRight: Radius.circular(20.r),
                       )),
                     ),
                   ),
                   Positioned(
-                    top: 57,
-                    left: 24,
-                    width: MediaQuery.of(context).size.width - 48,
+                    top: 57.r,
+                    left: 24.r,
+                    width: MediaQuery.of(context).size.width - 48.r,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 46,
-                          height: 46,
-                          decoration: const ShapeDecoration(
+                          width: 46.r,
+                          height: 46.r,
+                          decoration: ShapeDecoration(
                             color: Colors.white,
-                            shape: OvalBorder(),
+                            shape: const OvalBorder(),
                             shadows: [
                               BoxShadow(
-                                color: Color(0x14060620),
-                                blurRadius: 40,
-                                offset: Offset(0, 4),
+                                color: const Color(0x14060620),
+                                blurRadius: 40.r,
+                                offset: Offset(0, 4.r),
                                 spreadRadius: 0,
                               )
                             ],
                           ),
                           child: IconButton(
                             padding: EdgeInsets.zero,
-                            icon: const SizedBox(
-                              width: 16,
+                            icon: SizedBox(
+                              width: 16.r,
                               // height: 20,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_back_ios,
                               ),
                             ),
@@ -199,30 +214,29 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                           ),
                         ),
                         Container(
-                          width: 74,
-                          height: 40,
+                          width: 74.r,
+                          height: 40.r,
                           decoration: ShapeDecoration(
                             color:
                                 Colors.white.withOpacity(0.23999999463558197),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.apartment,
                                 color: Colors.white,
+                                size: 16.0.spMin,
                               ),
-                              const SizedBox(
-                                width: 5,
-                              ),
+                              5.horizontalSpace,
                               Text(
                                 value.unitNumber,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'Inter',
-                                  fontSize: 16,
+                                  fontSize: 14.spMin,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
                                 ),
@@ -236,11 +250,11 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 24,
-                  top: 24,
-                  right: 24,
-                  bottom: 8,
+                padding: EdgeInsets.only(
+                  left: 24.r,
+                  top: 24.r,
+                  right: 24.r,
+                  bottom: 8.r,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,37 +264,33 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        const SizedBox(
-                          width: 16,
-                          height: 16,
+                        SizedBox(
+                          width: 16.r,
+                          height: 16.r,
                           child: Icon(
                             Icons.location_on,
                             color: kPrimaryColor,
-                            size: 16,
+                            size: 16.r,
                           ),
                         ),
-                        const SizedBox(
-                          width: 4,
-                        ),
+                        4.horizontalSpace,
                         Text(
                           value.neighbourhood,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: kTextColor,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 4,
-                    ),
+                    4.verticalSpace,
                     Text(
                       value.buildingName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: kTextColor,
-                        fontSize: 24,
+                        fontSize: 24.sp,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w700,
                       ),
@@ -291,7 +301,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
               CardContainer(
                 isLoading: value.isLoading,
                 isEmpty: value.incomeListEmpty,
-                customHeight: 361,
+                customHeight: 361.r,
                 cardHeader: 'Payouts',
                 trailing: true,
                 trailingWidgetBackground: kPrimaryColor,
@@ -299,36 +309,32 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${value.latestMonth} Payout',
+                      'Total Recent Payout',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Color(0xFF7E8BA0),
-                        fontSize: 14,
+                      style: TextStyle(
+                        color: const Color(0xFF7E8BA0),
+                        fontSize: 14.sp,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w400,
-                        height: 0.11,
-                        letterSpacing: -0.50,
+                        height: 0.11.r,
+                        letterSpacing: -0.50.r,
                       ),
                     ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
+                    30.verticalSpace,
                     Text(
-                      value.latestMonthIncome,
-                      style: const TextStyle(
-                        color: Color(0xFF232A41),
-                        fontSize: 36,
+                      value.totalRecentPayout,
+                      style: TextStyle(
+                        color: const Color(0xFF232A41),
+                        fontSize: 32.sp,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w800,
-                        height: 0.03,
-                        letterSpacing: -0.36,
+                        height: 0.03.r,
+                        letterSpacing: -0.36.r,
                       ),
                     ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
+                    30.verticalSpace,
                     SizedBox(
-                      height: 200.0,
+                      height: 200.0.r,
                       child: CustomBarChart(
                         incomeData: incomeData,
                       ),
@@ -345,7 +351,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 trailing: true,
                 tooltipText:
                     "The values below represent the facts for the current month only",
-                customHeight: 316,
+                customHeight: 320.r,
                 child: KeyFacts(
                   dataValue1: value.grossIncome,
                   dataValue2: value.upcomingRent,
@@ -367,13 +373,9 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   cardHeader: "Calendar",
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      20.verticalSpace,
                       const BorderLine(),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      20.verticalSpace,
                       SfDateRangePicker(
                         view: DateRangePickerView.month,
                         selectionMode: DateRangePickerSelectionMode.multiRange,
@@ -385,11 +387,11 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                             const DateRangePickerMonthViewSettings(
                                 firstDayOfWeek: 1),
                         backgroundColor: Colors.white,
-                        headerStyle: const DateRangePickerHeaderStyle(
+                        headerStyle: DateRangePickerHeaderStyle(
                           backgroundColor: Colors.white,
                           textStyle: TextStyle(
                             color: kTextColor,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w700,
                           ),
@@ -418,9 +420,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 ),
               ),
               const PersonalManager(),
-              const SizedBox(
-                height: 20.0,
-              )
+              20.verticalSpace,
             ],
           ),
         ),

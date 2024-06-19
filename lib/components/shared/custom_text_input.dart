@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/components/shared/view_model/shared_component_model.dart';
 import 'package:provider/provider.dart';
 
@@ -40,22 +41,22 @@ class CustomTextInput extends StatelessWidget {
           autocorrect: false,
           controller: controller,
           obscureText: handleObscureTextField(value),
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Inter',
-            fontSize: 18,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w700,
           ),
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 15,
-              horizontal: 15,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 15.r,
+              horizontal: 15.r,
             ),
             icon: icon ?? icon,
             fillColor: Colors.white,
             filled: fillBg,
-            border: const OutlineInputBorder(
+            border: OutlineInputBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(10),
+                Radius.circular(10.r),
               ),
             ),
             labelText: hintText,

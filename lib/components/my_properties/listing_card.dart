@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:landlord_portal/config/colors.dart";
 import 'package:badges/badges.dart' as badges;
 
@@ -34,128 +35,121 @@ class ListingCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(
-            height: 25.0,
-          ),
-          Row(
-            children: [
-              badges.Badge(
-                showBadge: badge.isNotEmpty,
-                badgeContent: Text(
-                  badge,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
-                    height: 0,
-                  ),
-                ),
-                position: badges.BadgePosition.topStart(top: -8, start: -8),
-                child: Container(
-                  width: 78,
-                  height: 78,
-                  decoration: ShapeDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(image),
-                      fit: BoxFit.cover,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 18,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(
-                        width: 12,
-                        height: 12,
-                        child: Icon(
-                          Icons.location_on_outlined,
-                          color: kRedAccent,
-                          size: 12,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        location,
-                        style: const TextStyle(
-                          color: kTextColor,
-                          fontSize: 12,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    listingName,
-                    style: const TextStyle(
-                      color: kTextColor,
-                      fontSize: 18,
+          20.verticalSpace,
+          Padding(
+            padding: EdgeInsets.only(left: 10.0.r),
+            child: Row(
+              children: [
+                badges.Badge(
+                  showBadge: badge.isNotEmpty,
+                  badgeContent: Text(
+                    badge,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10.sp,
                       fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
+                      height: 0,
                     ),
                   ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Container(
-                    // width: 44,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  position:
+                      badges.BadgePosition.topStart(top: -8.r, start: -8.r),
+                  child: Container(
+                    width: 78.r,
+                    height: 78.r,
                     decoration: ShapeDecoration(
-                      color: const Color(0x192A85FF),
+                      image: DecorationImage(
+                        image: NetworkImage(image),
+                        fit: BoxFit.cover,
+                      ),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
+                          borderRadius: BorderRadius.circular(8.r)),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                  ),
+                ),
+                18.horizontalSpace,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
+                        SizedBox(
+                          width: 12.r,
+                          height: 12.r,
+                          child: Icon(
+                            Icons.location_on_outlined,
+                            color: kRedAccent,
+                            size: 12.r,
+                          ),
+                        ),
+                        4.horizontalSpace,
                         Text(
-                          unitNumber,
-                          style: const TextStyle(
-                            color: Color(0xFF2180FF),
-                            fontSize: 11,
+                          location,
+                          style: TextStyle(
+                            color: kTextColor,
+                            fontSize: 12.sp,
                             fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: -0.11,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
                     ),
-                  )
-                ],
-              ),
-            ],
+                    4.verticalSpace,
+                    Text(
+                      listingName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: kTextColor,
+                        fontSize: 18.sp,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    6.verticalSpace,
+                    Container(
+                      // width: 44,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.r, vertical: 4.r),
+                      decoration: ShapeDecoration(
+                        color: const Color(0x192A85FF),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.r)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            unitNumber,
+                            style: TextStyle(
+                              color: const Color(0xFF2180FF),
+                              fontSize: 11.sp,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.11.r,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
-          const SizedBox(
-            height: 25.0,
-          ),
+          20.verticalSpace,
           Container(
             width: MediaQuery.of(context).size.width,
-            height: 1,
+            height: 1.r,
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(
               color: const Color(0xFFE9ECF2),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(1)),
+                  borderRadius: BorderRadius.circular(1.r)),
             ),
           )
         ],
