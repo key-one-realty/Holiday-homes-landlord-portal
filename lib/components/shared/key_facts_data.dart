@@ -71,6 +71,7 @@ class KeyFactsData extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Icon(
                 icon,
+                // size: 16.r,
                 color: color,
               ),
             ),

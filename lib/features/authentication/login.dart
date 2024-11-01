@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/components/shared/custom_text_input.dart';
+import 'package:landlord_portal/components/shared/restore_credentials.dart';
 // import 'package:landlord_portal/components/shared/restore_credentials.dart';
 import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/features/authentication/view_model/auth_provider.dart';
@@ -93,7 +94,7 @@ class Login extends StatelessWidget {
                             ),
                           ),
                           // const Spacer(),
-                          // const RestoreCredentials(),
+                          const RestoreCredentials(),
                         ]),
                   ],
                 ),

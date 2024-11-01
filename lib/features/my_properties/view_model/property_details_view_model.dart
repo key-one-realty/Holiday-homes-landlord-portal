@@ -25,28 +25,31 @@ class PropertyDetailsData {
   PropertyTrendsReport propertyTrendsReport;
   List<MonthlyBooking> monthlyBooking;
   final double totalRecentPayout;
+  final String requestedMonth;
 
-  PropertyDetailsData(
-      {required this.transactionDetails,
-      required this.propertyDetailsScreenBody,
-      required this.propertyIncome,
-      required this.propertyTrendsReport,
-      required this.monthlyBooking,
-      required this.totalRecentPayout});
+  PropertyDetailsData({
+    required this.transactionDetails,
+    required this.propertyDetailsScreenBody,
+    required this.propertyIncome,
+    required this.propertyTrendsReport,
+    required this.monthlyBooking,
+    required this.totalRecentPayout,
+    required this.requestedMonth,
+  });
 
   factory PropertyDetailsData.fromJson(Map<String, dynamic> json) {
     return PropertyDetailsData(
-      transactionDetails:
-          TransactionDetails.fromJson(json['transaction_details']),
-      propertyDetailsScreenBody:
-          PropertyDetailsScreenBody.fromJson(json['property_details']),
-      propertyIncome: PropertyIncome.fromJson(json["property_income"]),
-      propertyTrendsReport:
-          PropertyTrendsReport.fromJson(json['property_trends_report']),
-      monthlyBooking: List<MonthlyBooking>.from(
-          json['monthly_booking'].map((x) => MonthlyBooking.fromJson(x))),
-      totalRecentPayout: json["total_recent_payout"].toDouble(),
-    );
+        transactionDetails:
+            TransactionDetails.fromJson(json['transaction_details']),
+        propertyDetailsScreenBody:
+            PropertyDetailsScreenBody.fromJson(json['property_details']),
+        propertyIncome: PropertyIncome.fromJson(json["property_income"]),
+        propertyTrendsReport:
+            PropertyTrendsReport.fromJson(json['property_trends_report']),
+        monthlyBooking: List<MonthlyBooking>.from(
+            json['monthly_booking'].map((x) => MonthlyBooking.fromJson(x))),
+        totalRecentPayout: json["total_recent_payout"].toDouble(),
+        requestedMonth: json["requested_month"]);
   }
 }
 
@@ -290,6 +293,8 @@ class MonthlyBooking {
   String bookingNightQty;
   String bookingRentalAmount;
   String bookingDate;
+  String bookingCheckIn;
+  String bookingCheckOut;
 
   MonthlyBooking({
     required this.bookingClientName,
@@ -297,6 +302,8 @@ class MonthlyBooking {
     required this.bookingNightQty,
     required this.bookingRentalAmount,
     required this.bookingDate,
+    required this.bookingCheckIn,
+    required this.bookingCheckOut,
   });
 
   factory MonthlyBooking.fromJson(Map<String, dynamic> json) {
@@ -306,6 +313,8 @@ class MonthlyBooking {
       bookingNightQty: json['booking_night_qty'],
       bookingRentalAmount: json['booking_rental_amount'],
       bookingDate: json['booking_date'],
+      bookingCheckIn: json['booking_checkin'],
+      bookingCheckOut: json['booking_checkout'],
     );
   }
 }

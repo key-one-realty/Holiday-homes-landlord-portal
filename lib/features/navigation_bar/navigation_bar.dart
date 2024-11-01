@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/features/home/home_screen.dart';
 import 'package:landlord_portal/features/my_properties/properties.dart';
@@ -21,29 +22,36 @@ class CustomNavigationBar extends StatelessWidget {
           selectedIndex: value.currentIndex,
           backgroundColor: kbodyPrimaryColor,
           elevation: 0,
-          destinations: const [
+          destinations: [
             NavigationDestination(
               icon: Icon(
                 Icons.home,
+                size: 18.r,
               ),
               selectedIcon: Icon(
                 Icons.home,
+                size: 18.r,
                 color: kPrimaryColor,
               ),
               label: 'Home',
             ),
             NavigationDestination(
-              icon: Icon(Icons.folder),
+              icon: const Icon(Icons.folder),
               selectedIcon: Icon(
                 Icons.folder,
+                size: 18.r,
                 color: kPrimaryColor,
               ),
               label: 'My Properties',
             ),
             NavigationDestination(
-              icon: Icon(Icons.receipt),
+              icon: Icon(
+                Icons.receipt,
+                size: 18.0.r,
+              ),
               selectedIcon: Icon(
                 Icons.receipt,
+                size: 18.r,
                 color: kPrimaryColor,
               ),
               label: 'Statements',

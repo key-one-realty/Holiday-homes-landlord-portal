@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter/widgets.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 // import "package:landlord_portal/components/home_screen/key_facts.dart";
 import "package:landlord_portal/components/shared/card_container.dart";
@@ -22,12 +21,12 @@ class StatementSreen extends StatefulWidget {
 }
 
 class _StatementSreenState extends State<StatementSreen> {
-  Future<int> getuserId() async {
-    int userId = context.read<AuthPovider>().userId;
+  Future<String> getuserId() async {
+    String userId = context.read<AuthPovider>().userId;
 
-    if (userId == 0) {
+    if (userId == "") {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      userId = prefs.getInt('userId')!;
+      userId = prefs.getString('userId')!;
     }
 
     if (mounted) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/components/shared/card_button.dart';
 import 'package:landlord_portal/config/colors.dart';
@@ -21,6 +22,9 @@ class CardContainer extends StatelessWidget {
     this.isLoading = false,
     this.isEmpty = false,
     this.tooltipText = "",
+    this.trailingWidgetChild,
+    this.enableHeaderWidget = false,
+    this.headerWidget,
   });
 
   final Widget child;
@@ -35,6 +39,9 @@ class CardContainer extends StatelessWidget {
   final bool isLoading;
   final bool isEmpty;
   final String tooltipText;
+  final Widget? trailingWidgetChild;
+  final bool enableHeaderWidget;
+  final Widget? headerWidget;
 
   Widget get containerState {
     if (isEmpty) {
@@ -78,6 +85,23 @@ class CardContainer extends StatelessWidget {
     }
   }
 
+  Widget? get getTrailingWidgetChild {
+    if (trailingWidgetChild == null) {
+      return Text(
+        trailingWidgetText,
+        style: TextStyle(
+          color: kTextSecondaryColor,
+          fontSize: 12.sp,
+          fontFamily: 'Inter',
+          fontWeight: FontWeight.w700,
+          height: 0.05.r,
+        ),
+      );
+    } else {
+      return trailingWidgetChild;
+    }
+  }
+
   Widget? get trailingWidget {
     if (trailing) {
       if (tooltipText == "") {
@@ -91,16 +115,7 @@ class CardContainer extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Text(
-              trailingWidgetText,
-              style: TextStyle(
-                color: kTextSecondaryColor,
-                fontSize: 12.sp,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w700,
-                height: 0.05.r,
-              ),
-            ),
+            child: getTrailingWidgetChild,
           ),
         );
       } else {
@@ -127,6 +142,34 @@ class CardContainer extends StatelessWidget {
           onPressed: onPressed,
         )
       : null;
+
+  Widget get getHeaderWidget {
+    if (enableHeaderWidget) {
+      if (headerWidget != null) {
+        return headerWidget!;
+      } else {
+        return Text(
+          cardHeader,
+          style: TextStyle(
+            color: const Color(0xFF1D1D25),
+            fontSize: 24.sp,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w700,
+          ),
+        );
+      }
+    } else {
+      return Text(
+        cardHeader,
+        style: TextStyle(
+          color: const Color(0xFF1D1D25),
+          fontSize: 24.sp,
+          fontFamily: 'Inter',
+          fontWeight: FontWeight.w700,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,15 +199,7 @@ class CardContainer extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    cardHeader,
-                    style: TextStyle(
-                      color: const Color(0xFF1D1D25),
-                      fontSize: 24.sp,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  getHeaderWidget,
                   trailingWidget ?? Container(),
                 ],
               ),

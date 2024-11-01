@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:landlord_portal/config/api.dart';
+import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/home/model/landlord_report_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,7 +40,7 @@ class LandlordProvider extends ChangeNotifier {
     final formatCurrency = NumberFormat.currency(
       locale: 'en_US',
       symbol: '',
-      decimalDigits: 1,
+      decimalDigits: 2,
     );
     return formatCurrency.format(number);
   }
@@ -194,7 +195,7 @@ class LandlordProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> getLandlordReport(int userId) async {
+  Future<bool> getLandlordReport(String userId) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("accessToken");
@@ -207,7 +208,7 @@ class LandlordProvider extends ChangeNotifier {
       final response = await http.get(url, headers: header);
       //access the response
       final data = jsonDecode(response.body);
-      debugPrint('$data');
+      customDebugPrint('$data');
 
       if (response.statusCode == 200) {
         _landlordDashboardResponse = LandlordDashboardResponse.fromJson(data);
@@ -225,7 +226,7 @@ class LandlordProvider extends ChangeNotifier {
         throw Exception(data["message"]);
       }
     } catch (e) {
-      debugPrint('$e');
+      customDebugPrint('$e');
       Fluttertoast.showToast(
         msg: "$e",
         toastLength: Toast.LENGTH_SHORT,

@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/authentication/model/auth_user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,12 +28,12 @@ class AuthPovider extends ChangeNotifier {
     }
   }
 
-  int get userId {
+  String get userId {
     if (_user != null) {
-      int userId = _user!.id;
+      String userId = _user!.id;
       return userId;
     } else {
-      return 0;
+      return "";
     }
   }
 
@@ -43,7 +46,7 @@ class AuthPovider extends ChangeNotifier {
     }
   }
 
-  final String? _apiKey = dotenv.env['BASE_API_URL'];
+  final String? _apiURL = dotenv.env['BASE_API_URL'];
   Map<String, String>? header = {
     'Content-Type': 'application/json; charset=UTF-8',
   };
@@ -72,7 +75,7 @@ class AuthPovider extends ChangeNotifier {
   Future<bool> login(String email, String password) async {
     try {
       setIsLoading = true;
-      final url = Uri.parse("${_apiKey!}/login");
+      final url = Uri.parse("${_apiURL!}/login");
       Object? payload =
           jsonEncode(<String, String>{'email': email, 'password': password});
       final response = await http.post(url, headers: header, body: payload);
@@ -81,12 +84,17 @@ class AuthPovider extends ChangeNotifier {
       if (response.statusCode == 200) {
         //Request was successful
         // Process the data
-        debugPrint('$data');
+        if (kDebugMode) {
+          customDebugPrint('$data');
+        }
         _loginResponse = AuthUserModel.fromJson(jsonDecode(response.body));
         _user = _loginResponse!.user;
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("accessToken", _loginResponse!.accessToken);
-        prefs.setInt("userId", _user!.id);
+        if (kDebugMode) {
+          customDebugPrint("user id: ${_user!.id}");
+        }
+        prefs.setString("userId", _user!.id);
         Fluttertoast.showToast(
           msg: "Logged in Successfully",
           toastLength: Toast.LENGTH_SHORT,
@@ -101,14 +109,30 @@ class AuthPovider extends ChangeNotifier {
         return _loginResponse!.success;
       } else {
         setIsLoading = false;
+        customDebugPrint(data);
         throw Exception(data['message']);
       }
+    } on http.ClientException catch (e) {
+      setIsLoading = false;
+      customDebugPrint("$e");
+      Fluttertoast.showToast(
+          msg: "Could not Login, Check Your Internet Connection",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP_RIGHT,
+          webPosition: "top",
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return false;
     } catch (e) {
       setIsLoading = false;
+      customDebugPrint("$e");
       Fluttertoast.showToast(
           msg: "$e",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.TOP_RIGHT,
+          webPosition: "top",
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.red,
           textColor: Colors.white,

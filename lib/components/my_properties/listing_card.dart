@@ -151,7 +151,7 @@ class ListingCard extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(1.r)),
             ),
-          )
+          ),
         ],
       ),
     );

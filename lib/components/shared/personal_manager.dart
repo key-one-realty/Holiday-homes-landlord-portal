@@ -45,19 +45,14 @@ class PersonalManager extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.45.r,
-                      child: FittedBox(
-                        child: Text(
-                          'Key One Holiday Homes',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w600,
-                            height: 0,
-                          ),
-                        ),
+                    Text(
+                      'Key One Holiday Homes',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w600,
+                        height: 0,
                       ),
                     ),
                     3.verticalSpace,
@@ -102,7 +97,7 @@ class PersonalManager extends StatelessWidget {
                       icon: Icon(
                         Icons.phone_in_talk_outlined,
                         color: kSecondaryColor,
-                        size: 16.sp,
+                        size: 14.r,
                       ),
                       alignment: Alignment.center,
                     ),
@@ -138,7 +133,7 @@ class PersonalManager extends StatelessWidget {
                             timeInSecForIosWeb: 2,
                             backgroundColor: Colors.red,
                             textColor: Colors.white,
-                            fontSize: 16.0,
+                            fontSize: 16.0.sp,
                           );
                         }
                       },
@@ -146,7 +141,7 @@ class PersonalManager extends StatelessWidget {
                       icon: Icon(
                         Icons.message_outlined,
                         color: kSecondaryColor,
-                        size: 16.sp,
+                        size: 14.r,
                       ),
                     ),
                   ),

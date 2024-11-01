@@ -1,8 +1,13 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/components/shared/view_model/shared_component_model.dart';
+import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/authentication/view_model/auth_provider.dart';
+import 'package:landlord_portal/features/home/view_model/device_view_model.dart';
 import 'package:landlord_portal/features/home/view_model/landlord_report_view_model.dart';
 import 'package:landlord_portal/features/home/view_model/user_view_model.dart';
 import 'package:landlord_portal/features/my_properties/model/property_details_model.dart';
@@ -10,17 +15,45 @@ import 'package:landlord_portal/features/my_properties/model/property_model.dart
 import 'package:landlord_portal/features/splash_screen/splash_screen.dart';
 import 'package:landlord_portal/features/splash_screen/view_model/splash_screen_view_model.dart';
 import 'package:landlord_portal/features/statements/view_model/statement_view_model.dart';
+import 'package:landlord_portal/firebase_options.dart';
 import 'package:landlord_portal/store/navigation_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:upgrader/upgrader.dart';
+// core FlutterFire dependency
+import 'package:firebase_core/firebase_core.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  if (kDebugMode) {
+    customDebugPrint("Handling a background message: ${message.messageId}");
+    customDebugPrint('Message data: ${message.data}');
+    customDebugPrint('Message notification: ${message.notification?.title}');
+    customDebugPrint('Message notification: ${message.notification?.body}');
+  }
+}
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  void handleBackgroundMessaging() {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  }
+
+  handleBackgroundMessaging();
+
   if (const bool.fromEnvironment('IS_LOCAL', defaultValue: true)) {
     await dotenv.load(fileName: ".env");
   }
+
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (content) => DeviceProvider(),
+        ),
         ChangeNotifierProvider(
           create: (content) => StatementProvider(),
         ),
@@ -60,6 +93,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return ScreenUtilInit(
       designSize: const Size(375, 826),
       minTextAdapt: true,
@@ -89,9 +126,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: UpgradeAlert(
-          child: child,
-        ),
+        home: child,
       ),
       child: const SplashScreen(),
     );

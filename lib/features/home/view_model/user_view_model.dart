@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:landlord_portal/config/api.dart';
+import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/home/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -96,7 +97,7 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> handleGetUserCaching(int userId) async {
+  Future<bool> handleGetUserCaching(String userId) async {
     final prefs = await SharedPreferences.getInstance();
     final lastRequestTime = prefs.getInt('lastRequestTime') ?? 0;
     final currentTime = DateTime.now().millisecondsSinceEpoch;
@@ -119,12 +120,12 @@ class UserProvider extends ChangeNotifier {
 
       return success;
     } else {
-      debugPrint('Request skipped due to 6-hour window');
+      customDebugPrint('Request skipped due to 6-hour window');
       return false;
     }
   }
 
-  Future<bool> getUser(int userId) async {
+  Future<bool> getUser(String userId) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("accessToken");
@@ -133,12 +134,13 @@ class UserProvider extends ChangeNotifier {
         'Authorization': 'Bearer $token'
       };
       Uri url = Uri.parse('$getUserAPI/$userId');
+      customDebugPrint("user id: $userId uri: $url");
 
       final response = await http.get(url, headers: header);
 
       //access the response
       final data = jsonDecode(response.body);
-      debugPrint('$data');
+      customDebugPrint('$data');
 
       if (response.statusCode == 200) {
         _userResponse = UserResponse.fromJson(data);
@@ -152,7 +154,7 @@ class UserProvider extends ChangeNotifier {
         throw Exception(data["message"]);
       }
     } catch (e) {
-      debugPrint('$e');
+      customDebugPrint('$e');
       Fluttertoast.showToast(
         msg: "$e",
         toastLength: Toast.LENGTH_SHORT,
