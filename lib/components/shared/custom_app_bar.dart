@@ -20,13 +20,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(50);
 
   Icon get icon => !goBack
-      ? const Icon(
+      ? Icon(
           Icons.person_2_outlined,
           color: Colors.white,
+          size: 20.r,
         )
-      : const Icon(
+      : Icon(
           Icons.arrow_back,
           color: Colors.white,
+          size: 20.r,
         );
 
   IconData get iconData => appBarTitle != "Notifications"
@@ -35,60 +37,67 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: Text(
-        appBarTitle,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.sp,
-          fontFamily: 'Inter',
-          fontWeight: FontWeight.w500,
-          height: 0,
+    return PreferredSize(
+      preferredSize: Size.fromHeight(100.0.r),
+      child: AppBar(
+        // toolbarHeight: kToolbarHeight + 50.r,
+        title: Padding(
+          padding: EdgeInsets.all(15.0.r),
+          child: Text(
+            appBarTitle,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14.sp,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w500,
+              height: 0,
+            ),
+          ),
         ),
+        backgroundColor: kPrimaryColor,
+        leading: IconButton(
+            icon: icon,
+            onPressed: () {
+              if (!goBack) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfilePage(),
+                  ),
+                );
+              } else {
+                Navigator.pop(context);
+              }
+            }),
+        // actions: [
+        //   badge.Badge(
+        //     position: badge.BadgePosition.topEnd(top: 6.r, end: 8.r),
+        //     stackFit: StackFit.passthrough,
+        //     badgeContent: Container(
+        //       width: 3.r,
+        //       height: 3.r,
+        //       decoration: const ShapeDecoration(
+        //         color: Color(0xFFEB3D5E),
+        //         shape: OvalBorder(),
+        //       ),
+        //     ),
+        //     child: IconButton(
+        //       icon: Icon(iconData, color: Colors.white),
+        //       onPressed: () {
+        //         // Scaffold.of(context).openDrawer();
+        //         if (appBarTitle != "Notifications") {
+        //           Navigator.push(
+        //               context,
+        //               MaterialPageRoute(
+        //                   builder: (context) => const NotificationScreen()));
+        //         } else {
+        //           Navigator.pop(context);
+        //         }
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
-      backgroundColor: kPrimaryColor,
-      leading: IconButton(
-          icon: icon,
-          onPressed: () {
-            if (!goBack) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProfilePage(),
-                ),
-              );
-            } else {
-              Navigator.pop(context);
-            }
-          }),
-      // actions: [
-      //   badge.Badge(
-      //     position: badge.BadgePosition.topEnd(top: 6.r, end: 8.r),
-      //     stackFit: StackFit.passthrough,
-      //     badgeContent: Container(
-      //       width: 3.r,
-      //       height: 3.r,
-      //       decoration: const ShapeDecoration(
-      //         color: Color(0xFFEB3D5E),
-      //         shape: OvalBorder(),
-      //       ),
-      //     ),
-      //     child: IconButton(
-      //       icon: Icon(iconData, color: Colors.white),
-      //       onPressed: () {
-      //         // Scaffold.of(context).openDrawer();
-      //         if (appBarTitle != "Notifications") {
-      //           Navigator.push(
-      //               context,
-      //               MaterialPageRoute(
-      //                   builder: (context) => const NotificationScreen()));
-      //         } else {
-      //           Navigator.pop(context);
-      //         }
-      //       },
-      //     ),
-      //   ),
-      // ],
     );
   }
 }

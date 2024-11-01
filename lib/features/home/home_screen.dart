@@ -8,7 +8,9 @@ import 'package:landlord_portal/components/shared/bottom_border_container.dart';
 import 'package:landlord_portal/components/shared/card_container.dart';
 import 'package:landlord_portal/components/shared/custom_app_bar.dart';
 import 'package:landlord_portal/components/shared/personal_manager.dart';
+import 'package:landlord_portal/config/firebase_api.dart';
 import 'package:landlord_portal/features/authentication/view_model/auth_provider.dart';
+import 'package:landlord_portal/features/home/view_model/device_view_model.dart';
 import 'package:landlord_portal/features/home/view_model/landlord_report_view_model.dart';
 import 'package:landlord_portal/features/home/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
@@ -22,17 +24,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future<int> getuserId() async {
-    int userId = context.read<AuthPovider>().userId;
+  Future<String> getuserId() async {
+    String userId = context.read<AuthPovider>().userId;
 
-    if (userId == 0) {
+    if (userId == "") {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      userId = prefs.getInt('userId')!;
+      userId = prefs.getString('userId')!;
     }
 
     if (mounted) {
       context.read<LandlordProvider>().getLandlordReport(userId);
       context.read<UserProvider>().handleGetUserCaching(userId);
+      context.read<DeviceProvider>().registerDevice(userId);
     }
 
     return userId;
@@ -42,6 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     getuserId();
+
+    final firebaseFCM = FirebaseFCM();
+
+    firebaseFCM.initializeFirebase();
   }
 
   @override
@@ -99,14 +106,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     CardContainer(
                       isEmpty: landlordValue.isIncomeDataEmpty,
                       isLoading: landlordValue.isLoading,
-                      customHeight: 361.r,
+                      customHeight: 382.r,
                       cardHeader: 'Payouts',
                       trailing: true,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Total Recent Payout',
+                            'Total Payout',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: const Color(0xFF7E8BA0),
@@ -117,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               letterSpacing: -0.50.sp,
                             ),
                           ),
-                          30.verticalSpace,
+                          35.verticalSpace,
                           Text(
                             landlordValue.totalRecentPayout,
                             style: TextStyle(

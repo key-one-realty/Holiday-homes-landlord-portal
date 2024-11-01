@@ -1,8 +1,10 @@
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:landlord_portal/components/shared/border_line.dart";
 import "package:landlord_portal/components/statements/custom_pdf_viewer.dart";
 import "package:landlord_portal/config/colors.dart";
+import "package:landlord_portal/config/helpers/util_functions.dart";
 import "package:landlord_portal/features/statements/view_model/statement_view_model.dart";
 import "package:provider/provider.dart";
 
@@ -46,7 +48,9 @@ class StatementCard extends StatelessWidget {
                 ),
                 onPressed: () {
                   value.setPDFLink = statementPDFLink;
-                  debugPrint(value.pdfLink);
+                  if (kDebugMode) {
+                    customDebugPrint(value.pdfLink);
+                  }
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (builder) => const PdfViewer(),

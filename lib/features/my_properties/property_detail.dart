@@ -2,14 +2,14 @@ import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:landlord_portal/components/home_screen/custom_bar_chart.dart";
 import "package:landlord_portal/components/home_screen/key_facts.dart";
-import "package:landlord_portal/components/my_properties/bookings_card.dart";
 import "package:landlord_portal/components/shared/border_line.dart";
 import "package:landlord_portal/components/shared/card_container.dart";
+import "package:landlord_portal/components/shared/date_dropdown.dart";
 import "package:landlord_portal/components/shared/personal_manager.dart";
 import "package:landlord_portal/config/colors.dart";
+import "package:landlord_portal/config/helpers/util_functions.dart";
 import "package:landlord_portal/features/authentication/view_model/auth_provider.dart";
 import "package:landlord_portal/features/my_properties/model/property_details_model.dart";
-import "package:landlord_portal/features/my_properties/view_model/property_details_view_model.dart";
 import "package:provider/provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -27,18 +27,18 @@ class PropertyDetails extends StatefulWidget {
 }
 
 class _PropertyDetailsState extends State<PropertyDetails> {
-  Future<int> getuserId() async {
-    int userId = context.read<AuthPovider>().userId;
+  Future<String> getuserId() async {
+    String userId = context.read<AuthPovider>().userId;
 
-    if (userId == 0) {
+    if (userId == "") {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      userId = prefs.getInt('userId')!;
+      userId = prefs.getString('userId')!;
     }
 
     if (mounted) {
-      context
+      await context
           .read<PropertyDetailsProvider>()
-          .getPropertyDetails(userId, widget.projectId);
+          .getPropertyDetails(userId, widget.projectId, null, null);
     }
 
     return userId;
@@ -47,114 +47,61 @@ class _PropertyDetailsState extends State<PropertyDetails> {
   @override
   void initState() {
     super.initState();
+    // Defer the API call until after the initial build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getuserId();
+    });
     // call the getUserProperty API
-    getuserId();
-  }
-
-  List<PickerDateRange>? get bookedDateList {
-    List<Map<String, Map>> bookedDatesListFromModel =
-        context.read<PropertyDetailsProvider>().bookedDates;
-
-    List<PickerDateRange>? bookedDates = [];
-
-    if (bookedDatesListFromModel.isNotEmpty) {
-      for (Map<String, Map> dates in bookedDatesListFromModel) {
-        Map? startDate = dates["checkIn"];
-        Map? endDate = dates["checkOut"];
-        bookedDates.add(
-          PickerDateRange(
-            DateTime(startDate!["year"], startDate["month"], startDate["day"]),
-            DateTime(
-              endDate!["year"],
-              endDate["month"],
-              endDate["day"],
-            ),
-          ),
-        );
-      }
-      // debugPrint('Booked Dates: $bookedDates');
-      return bookedDates;
-    } else {
-      return null;
-    }
-  }
-
-  List<Widget> get upcomingBookingsList {
-    List<MonthlyBooking>? bookings =
-        context.read<PropertyDetailsProvider>().monthlyBooking;
-
-    List<Widget> bookingCard = [];
-    if (bookings != null) {
-      if (bookings.isNotEmpty) {
-        for (MonthlyBooking booking in bookings) {
-          // debugPrint("${booking.bookingClientName}");
-          bookingCard.add(BookingCard(
-            bookinNightsQty: booking.bookingNightQty,
-            bookingDate: booking.bookingDate,
-            bookingPlatform: booking.bookingPlatform,
-            occupantsName: booking.bookingClientName,
-            rentalAmount: booking.bookingRentalAmount,
-          ));
-        }
-        return bookingCard;
-      } else {
-        return [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text("No upcoming bookings"),
-          )
-        ];
-      }
-    } else {
-      return [
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text("No upcoming bookings"),
-        )
-      ];
-    }
-  }
-
-  List<MapEntry<int, double>> get incomeData {
-    PropertyIncome? propertyProvider =
-        context.read<PropertyDetailsProvider>().propertyIncome;
-
-    List<MapEntry<int, double>> mapEntryList = [];
-
-    if (propertyProvider != null) {
-      List<IncomeItem> incomeList = propertyProvider.propertyIncome;
-      if (incomeList.isNotEmpty) {
-        incomeList.sort((a, b) => a.month.compareTo(b.month));
-
-        int incomelistLength = incomeList.length - 1;
-        int lastIncomeMonth = incomeList[incomelistLength].month;
-
-        int leastMonth = lastIncomeMonth - 6;
-
-        for (IncomeItem income in incomeList) {
-          if (income.month > leastMonth) {
-            double incomeDouble =
-                double.parse(income.income.replaceAll(",", ""));
-            MapEntry<int, double> entry = MapEntry(income.month, incomeDouble);
-            mapEntryList.add(entry);
-          } else {
-            continue;
-          }
-        }
-        // context.read<PropertyDetailsProvider>().incomeListEmpty = false;
-        return mapEntryList;
-      } else {
-        // context.read<PropertyDetailsProvider>().incomeListEmpty = true;
-        return [const MapEntry(1, 0)];
-      }
-    } else {
-      return [const MapEntry(1, 0)];
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    DateRangePickerController dateRangePickercontroller =
+        DateRangePickerController();
+
     return Scaffold(
+      floatingActionButton: Consumer<PropertyDetailsProvider>(
+        builder: (context, value, child) => Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: kPrimaryColor,
+            boxShadow: [
+              BoxShadow(
+                color: kGreyColor,
+                blurRadius: 4,
+                offset: Offset(0, 4), // Shadow position
+              )
+            ],
+          ),
+          child: IconButton(
+            color: Colors.white,
+            onPressed: () {
+              showAdaptiveDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return displayMonthFilter(
+                    (dateValue) async {
+                      customDebugPrint("$dateValue");
+                      value.setMonthSelected = dateValue["month"];
+                      Navigator.of(context).pop();
+                      await value.getPropertyDetails(
+                        value.userId,
+                        widget.projectId,
+                        dateValue["start"],
+                        dateValue["end"],
+                      );
+                    },
+                    context,
+                    value.getDropDownMenuEntries,
+                    value.getMonthList,
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.calendar_month),
+          ),
+        ),
+      ),
       body: Consumer<PropertyDetailsProvider>(
         builder: (context, value, child) => SingleChildScrollView(
           child: Column(
@@ -301,7 +248,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
               CardContainer(
                 isLoading: value.isLoading,
                 isEmpty: value.incomeListEmpty,
-                customHeight: 361.r,
+                customHeight: 380.r,
                 cardHeader: 'Payouts',
                 trailing: true,
                 trailingWidgetBackground: kPrimaryColor,
@@ -309,7 +256,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Total Recent Payout',
+                      'Total Payout',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: const Color(0xFF7E8BA0),
@@ -336,22 +283,36 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                     SizedBox(
                       height: 200.0.r,
                       child: CustomBarChart(
-                        incomeData: incomeData,
+                        incomeData: value.incomeData,
                       ),
                     ),
                   ],
                 ),
               ),
               CardContainer(
+                enableHeaderWidget: true,
+                headerWidget: DateDropdown(
+                    selectedMonth: value.selectedMonth,
+                    onSelected: (dateValue) async {
+                      customDebugPrint("$dateValue");
+                      value.setMonthSelected = dateValue["month"];
+                      Navigator.of(context).pop();
+                      await value.getPropertyDetails(
+                        value.userId,
+                        widget.projectId,
+                        dateValue["start"],
+                        dateValue["end"],
+                      );
+                    }),
                 isLoading: value.isLoading,
-                isEmpty: value.grossIncome == 'AED 0' &&
-                    value.occupancyRate == "0%" &&
-                    value.totalNightsBooked == "0",
-                cardHeader: '${value.latestMonth} Facts',
+                // isEmpty: value.grossIncome == 'AED 0' &&
+                //     value.occupancyRate == "0%" &&
+                //     value.totalNightsBooked == "0",
+                cardHeader: '${value.requestedMonth} Facts',
                 trailing: true,
+                customHeight: 330.r,
                 tooltipText:
-                    "The values below represent the facts for the current month only",
-                customHeight: 320.r,
+                    "The facts shown below indicate the activities in the requested month only. If there is an overlap between month, it will not show the data.",
                 child: KeyFacts(
                   dataValue1: value.grossIncome,
                   dataValue2: value.upcomingRent,
@@ -369,7 +330,7 @@ class _PropertyDetailsState extends State<PropertyDetails> {
               ),
               CardContainer(
                   isLoading: value.isLoading,
-                  isEmpty: bookedDateList?.isEmpty ?? true,
+                  // isEmpty: bookedDateList?.isEmpty ?? true,
                   cardHeader: "Calendar",
                   child: Column(
                     children: [
@@ -377,6 +338,11 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       const BorderLine(),
                       20.verticalSpace,
                       SfDateRangePicker(
+                        controller: dateRangePickercontroller,
+                        onSelectionChanged:
+                            (dateRangePickerSelectionChangedArgs) =>
+                                dateRangePickercontroller.selectedRanges =
+                                    value.bookedDateList,
                         view: DateRangePickerView.month,
                         selectionMode: DateRangePickerSelectionMode.multiRange,
                         selectionShape: DateRangePickerSelectionShape.rectangle,
@@ -385,7 +351,8 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                         toggleDaySelection: false,
                         monthViewSettings:
                             const DateRangePickerMonthViewSettings(
-                                firstDayOfWeek: 1),
+                          firstDayOfWeek: 1,
+                        ),
                         backgroundColor: Colors.white,
                         headerStyle: DateRangePickerHeaderStyle(
                           backgroundColor: Colors.white,
@@ -402,25 +369,31 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                         startRangeSelectionColor: kPrimaryColor,
                         endRangeSelectionColor: kPrimaryColor,
                         rangeSelectionColor: kPrimaryColor.withOpacity(0.2),
+                        selectableDayPredicate: (date) {
+                          return value.selectableDayPredicate(
+                            date,
+                            value.bookedDateList,
+                          );
+                        },
                         selectionColor: kPrimaryColor,
                         // onSelectionChanged:
                         //     (DateRangePickerSelectionChangedArgs args) {
-                        //   debugPrint(args.value.toString());
+                        //   customDebugPrint(args.value.toString());
                         // },
-                        initialSelectedRanges: bookedDateList,
+                        initialSelectedRanges: value.bookedDateList,
                       ),
                     ],
                   )),
               CardContainer(
                 // isEmpty: true,
                 isLoading: value.isLoading,
-                cardHeader: "${value.currentMonth} Bookings",
+                cardHeader: "${value.requestedMonth} Bookings",
                 child: Column(
-                  children: upcomingBookingsList,
+                  children: value.upcomingBookingsList,
                 ),
               ),
               const PersonalManager(),
-              20.verticalSpace,
+              80.verticalSpace,
             ],
           ),
         ),

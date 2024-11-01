@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:landlord_portal/config/api.dart';
+import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/splash_screen/model/access_token_view_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +33,7 @@ class SplashScreenProvider extends ChangeNotifier {
       final response = await http.get(url, headers: header);
       //access the response
       final data = jsonDecode(response.body);
-      debugPrint('$data');
+      customDebugPrint('$data');
 
       if (response.statusCode == 200) {
         _tokenVerifierResponse = TokenVerifierResponse.fromJson(data);

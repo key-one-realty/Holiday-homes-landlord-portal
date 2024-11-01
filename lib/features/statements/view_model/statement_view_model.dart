@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:landlord_portal/config/api.dart';
+import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/statements/model/statement_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -44,10 +45,8 @@ class StatementProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> getStatements(int userId) async {
+  Future<bool> getStatements(String userId) async {
     try {
-      setIsLoading = true;
-
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("accessToken");
@@ -61,7 +60,7 @@ class StatementProvider extends ChangeNotifier {
       final response = await http.get(url, headers: header);
       //access the response
       final data = jsonDecode(response.body);
-      debugPrint('$data');
+      customDebugPrint('$data');
 
       if (response.statusCode == 200) {
         _statementsResponse = StatementsResponse.fromJson(data);
@@ -75,7 +74,7 @@ class StatementProvider extends ChangeNotifier {
       }
     } catch (e) {
       setIsLoading = false;
-      debugPrint('$e');
+      customDebugPrint('$e');
       Fluttertoast.showToast(
         msg: "$e",
         toastLength: Toast.LENGTH_SHORT,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/config/colors.dart';
 
 class BottomBorderContainer extends StatelessWidget {
@@ -19,15 +20,15 @@ class BottomBorderContainer extends StatelessWidget {
             top: 0,
             left: 0,
             child: SizedBox(
-              height: 110,
+              height: 140.r,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                decoration: const ShapeDecoration(
+                decoration: ShapeDecoration(
                   color: kPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20.r),
+                      bottomRight: Radius.circular(20.r),
                     ),
                   ),
                 ),

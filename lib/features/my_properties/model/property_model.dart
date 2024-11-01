@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:landlord_portal/config/api.dart';
+import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/my_properties/view_model/property_view_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,6 +21,14 @@ class PropertyProvider extends ChangeNotifier {
       return _projects!.length;
     } else {
       return 0;
+    }
+  }
+
+  double get platformHeightMultiplier {
+    if (Platform.isIOS) {
+      return 0.031;
+    } else {
+      return 0.045;
     }
   }
 
@@ -44,7 +54,7 @@ class PropertyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> getProperties(int userId) async {
+  Future<bool> getProperties(String userId) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("accessToken");
@@ -53,11 +63,11 @@ class PropertyProvider extends ChangeNotifier {
         'Authorization': 'Bearer $token'
       };
       Uri url = Uri.parse('$getUserPropertiesAPI/$userId');
-      // debugPrint('$url, $header');
+      // customDebugPrint('$url, $header');
       final response = await http.get(url, headers: header);
       //access the response
       final data = jsonDecode(response.body);
-      debugPrint('$data');
+      customDebugPrint('$data');
 
       if (response.statusCode == 200) {
         _propertyApiResponse = PropertyApiResponse.fromJson(data);
@@ -72,7 +82,7 @@ class PropertyProvider extends ChangeNotifier {
         throw Exception(data["message"]);
       }
     } catch (e) {
-      debugPrint('$e');
+      customDebugPrint('$e');
       Fluttertoast.showToast(
         msg: "$e",
         toastLength: Toast.LENGTH_SHORT,

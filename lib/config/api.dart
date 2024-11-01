@@ -19,3 +19,7 @@ String getPropertyDetailsAPI = '$baseApi/property/details';
 String getLandlordReportAPI = '$baseApi/user/report';
 
 String getUserStatements = '$baseApi/statements/all';
+
+String registerDeviceAPI = '$baseApi/devices/register';
+
+String deviceReceivedNotificationAPI = '$baseApi/devices/received-notification';

@@ -7,6 +7,7 @@ import 'package:landlord_portal/features/onboarding_screens/onboarding_screen.da
 import 'package:landlord_portal/features/splash_screen/view_model/splash_screen_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upgrader/upgrader.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -40,12 +41,16 @@ class _SplashScreenState extends State<SplashScreen>
               builder: (builder) {
                 if (checkUser != null) {
                   if (!navigateHome) {
-                    return const Login();
+                    return UpgradeAlert(
+                      child: const Login(),
+                    );
                   } else {
                     return const CustomNavigationBar();
                   }
                 } else {
-                  return const OnboardingScreen();
+                  return UpgradeAlert(
+                    child: const OnboardingScreen(),
+                  );
                 }
               },
             ),
