@@ -1,1 +1,52 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"landlordconnectnotify-28483","appId":"1:8149986184:android:267f92c4796d83a8a3e83d","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"landlordconnectnotify-28483","appId":"1:8149986184:ios:9e2492bcbe0e088ea3e83d","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"landlordconnectnotify-28483","appId":"1:8149986184:ios:f1074c2f07db2ef5a3e83d","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"landlordconnectnotify-28483","configurations":{"android":"1:8149986184:android:267f92c4796d83a8a3e83d","ios":"1:8149986184:ios:9e2492bcbe0e088ea3e83d","macos":"1:8149986184:ios:f1074c2f07db2ef5a3e83d","web":"1:8149986184:web:2db79157b95f0fb5a3e83d","windows":"1:8149986184:web:41251a1f56b3948fa3e83d"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "landlordconnectnotify-28483",
+          "appId": "1:8149986184:android:267f92c4796d83a8a3e83d",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "landlordconnectnotify-28483",
+          "appId": "1:8149986184:ios:9e2492bcbe0e088ea3e83d",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "landlordconnectnotify-28483",
+          "appId": "1:8149986184:ios:f1074c2f07db2ef5a3e83d",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "landlordconnectnotify-28483",
+          "configurations": {
+            "android": "1:8149986184:android:267f92c4796d83a8a3e83d",
+            "ios": "1:8149986184:ios:9e2492bcbe0e088ea3e83d",
+            "macos": "1:8149986184:ios:f1074c2f07db2ef5a3e83d",
+            "web": "1:8149986184:web:2db79157b95f0fb5a3e83d",
+            "windows": "1:8149986184:web:41251a1f56b3948fa3e83d"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "asia-east1"
+    }
+  }
+}
