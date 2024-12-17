@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:landlord_portal/config/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PersonalManager extends StatelessWidget {
   const PersonalManager({
@@ -9,14 +12,14 @@ class PersonalManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(14.0),
+      padding: EdgeInsets.all(14.0.r),
       child: Container(
         // width: 327,
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0.r),
         decoration: ShapeDecoration(
           color: kSecondaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
           ),
         ),
         child: Row(
@@ -24,12 +27,12 @@ class PersonalManager extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 36.r,
+                  height: 36.r,
                   decoration: const ShapeDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        'assets/images/manager_profile.jpeg',
+                        'assets/images/user_pic.png',
                       ),
                       alignment: Alignment.center,
                       fit: BoxFit.fitWidth,
@@ -37,31 +40,27 @@ class PersonalManager extends StatelessWidget {
                     shape: OvalBorder(),
                   ),
                 ),
-                const SizedBox(
-                  width: 10.0,
-                ),
-                const Column(
+                10.horizontalSpace,
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Kaspar Eckhard',
+                      'Key One Holiday Homes',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w600,
                         height: 0,
                       ),
                     ),
-                    SizedBox(
-                      height: 3.0,
-                    ),
+                    3.verticalSpace,
                     Text(
-                      'Personal Manager',
+                      'Account Manager',
                       style: TextStyle(
                         color: kTextSecondaryColor,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w400,
                         height: 0,
@@ -75,43 +74,75 @@ class PersonalManager extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 29.05,
-                  height: 29.05,
+                  width: 29.05.r,
+                  height: 29.05.r,
                   // padding: const EdgeInsets.all(10),
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(
                     color: const Color(0xFFF9F9F9),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.phone_in_talk_outlined,
-                      color: kSecondaryColor,
-                      size: 16,
+                  child: Center(
+                    child: IconButton(
+                      onPressed: () async {
+                        const phoneNumber = '+971581042990';
+                        final Uri phoneCallUri = Uri(
+                          scheme: 'tel',
+                          path: phoneNumber,
+                        );
+                        await launchUrl(phoneCallUri);
+                      },
+                      icon: Icon(
+                        Icons.phone_in_talk_outlined,
+                        color: kSecondaryColor,
+                        size: 14.r,
+                      ),
+                      alignment: Alignment.center,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10.0,
-                ),
+                10.horizontalSpace,
                 Container(
-                  width: 29.05,
-                  height: 29.05,
+                  width: 29.05.r,
+                  height: 29.05.r,
                   // padding: const EdgeInsets.all(10),
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(
                     color: const Color(0xFFF9F9F9),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.message_outlined,
-                      color: kSecondaryColor,
-                      size: 16,
+                  child: Center(
+                    child: IconButton(
+                      onPressed: () async {
+                        const phoneNumber = '+971581042990';
+                        String url = "wa.me/$phoneNumber";
+                        final Uri whatsappUri = Uri(
+                          scheme: 'https',
+                          path: url,
+                        );
+                        if (!await launchUrl(whatsappUri,
+                            mode: LaunchMode.inAppBrowserView)) {
+                          Fluttertoast.showToast(
+                            msg: "Can not open $url",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP_RIGHT,
+                            timeInSecForIosWeb: 2,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0.sp,
+                          );
+                        }
+                      },
+                      alignment: AlignmentDirectional.topCenter,
+                      icon: Icon(
+                        Icons.message_outlined,
+                        color: kSecondaryColor,
+                        size: 14.r,
+                      ),
                     ),
                   ),
                 ),

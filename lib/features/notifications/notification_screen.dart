@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:landlord_portal/components/shared/custom_app_bar.dart";
 import "package:landlord_portal/components/shared/announcement_card.dart";
 import "package:landlord_portal/components/shared/card_container.dart";
@@ -12,10 +13,11 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
           appBarTitle: "Notifications",
+          goBack: true,
           onPressLeadingIcon: () {
             Navigator.pop(context);
           }),
-      body: const Column(
+      body: Column(
         children: [
           CardContainer(
             hasBtn: true,
@@ -23,10 +25,8 @@ class NotificationScreen extends StatelessWidget {
             cardHeader: 'Alerts',
             child: Column(
               children: [
-                SizedBox(
-                  height: 28.0,
-                ),
-                AnnouncementCard(
+                28.verticalSpace,
+                const AnnouncementCard(
                   sender: 'Kaspar Eckhard',
                   timeStamp: '2 hours ago',
                   announcementDescription:
@@ -34,7 +34,7 @@ class NotificationScreen extends StatelessWidget {
                   profileImage:
                       AssetImage('assets/images/manager_profile.jpeg'),
                 ),
-                AnnouncementCard(
+                const AnnouncementCard(
                   profileImage:
                       AssetImage('assets/images/keyone_logo_dark.png'),
                   sender: "Key One Realty",
@@ -45,7 +45,7 @@ class NotificationScreen extends StatelessWidget {
               ],
             ),
           ),
-          PersonalManager(),
+          const PersonalManager(),
         ],
       ),
     );

@@ -1,7 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:landlord_portal/components/shared/restore_credentials.dart';
+// import 'package:landlord_portal/components/shared/restore_credentials.dart';
 import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/features/authentication/login.dart';
 
@@ -12,18 +12,18 @@ class CarouselWidget extends StatefulWidget {
     {
       'title': 'Welcome Aboard!',
       'description':
-          "Let's get started on simplifying your holiday home management! Follow these easy steps to set up your account and discover how effortless and rewarding renting out your property can be with Key One Holiday Homes!",
+          "Let's get started on simplifying your holiday home management! Login with your details and discover how effortless and rewarding renting out your property can be with Key One Holiday Homes!",
     },
     {
-      'title': 'Manage Your Properties',
+      'title': 'Assess Your Property Account',
       'description':
-          'Add, edit, and remove properties with ease. Keep track of all your properties in one place.',
+          'See how much you have made with Key One Holiday Homes in one place.',
       'image': 'assets/images/onboarding_pic.png'
     },
     {
-      'title': 'Manage Your Tenants',
+      'title': 'Monitor Your Property Bookings',
       'description':
-          'Add, edit, and remove tenants with ease. Keep track of all your tenants in one place.',
+          'Keep track of your occupancy rate and view your booking details.',
       'image': 'assets/images/onboarding_pic.png'
     },
   ];
@@ -33,12 +33,12 @@ class CarouselWidget extends StatefulWidget {
 }
 
 class _CarouselWidgetState extends State<CarouselWidget> {
-  late CarouselController buttonCarouselController;
+  late CarouselControllerPlus buttonCarouselController;
   int currentIndex = 0;
 
   @override
   void initState() {
-    buttonCarouselController = CarouselController();
+    buttonCarouselController = CarouselControllerPlus();
     super.initState();
   }
 
@@ -49,7 +49,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         CarouselSlider(
-          carouselController: buttonCarouselController,
+          controller: buttonCarouselController,
           items: CarouselWidget.onBoardingList
               .map((e) => Builder(builder: (BuildContext context) {
                     return Padding(
@@ -115,7 +115,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -141,7 +141,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
             ),
           ),
         ),
-        const RestoreCredentials(),
+        // const RestoreCredentials(),
       ],
     );
   }
