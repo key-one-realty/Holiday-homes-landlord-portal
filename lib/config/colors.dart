@@ -10,3 +10,6 @@ const kTextSecondaryColor = Color(0xFFEFF1EE);
 const kOffWhiteColor = Color(0xFFF9F9F9);
 const kGreyColor = Color(0x7F3F532E);
 const kRedAccent = Color(0xFFE12D39);
+const kBookingComColor = Color(0xFF003B95);
+const kAirBnB = Color(0xFFFF385C);
+// const kDirectBooking = Color()

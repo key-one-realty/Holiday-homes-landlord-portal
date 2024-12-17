@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/config/chart_month_constructor.dart';
 import 'package:landlord_portal/config/colors.dart';
 
 class CustomBarChart extends StatelessWidget {
-  CustomBarChart({Key? key}) : super(key: key);
+  const CustomBarChart({super.key, required this.incomeData});
 
-  final List<MapEntry<int, double>> incomeData = [
-    const MapEntry(1, 100.0),
-    const MapEntry(2, 300.0),
-    const MapEntry(3, 400.0),
-    const MapEntry(4, 150.0),
-    const MapEntry(5, 500.0),
-    const MapEntry(6, 100.0),
-  ];
+  final List<MapEntry<int, double>> incomeData;
 
   @override
   Widget build(BuildContext context) {
     return BarChart(
       BarChartData(
+        barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+          tooltipBgColor: Colors.white,
+          fitInsideHorizontally: true,
+        )),
         borderData: FlBorderData(
           show: false,
         ),
@@ -48,17 +47,17 @@ class CustomBarChart extends StatelessWidget {
         gridData: const FlGridData(
           show: false,
         ),
-        groupsSpace: 10,
+        groupsSpace: 10.r,
         barGroups: incomeData
             .map((entry) => BarChartGroupData(
                   x: entry.key.toInt(),
                   barRods: [
                     BarChartRodData(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(6),
-                        topRight: Radius.circular(6),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(6.r),
+                        topRight: Radius.circular(6.r),
                       ),
-                      width: 43.23,
+                      width: 43.23.r,
                       toY: entry.value,
                       color: kPrimaryColor,
                     ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8149986184",
+    "project_id": "landlordconnectnotify-28483",
+    "storage_bucket": "landlordconnectnotify-28483.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8149986184:android:267f92c4796d83a8a3e83d",
+        "android_client_info": {
+          "package_name": "com.keyonerealtygroup.landlord_connect_hh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjIvvJwm7WnFIzD1lSMWh1mhbRyAg5Bs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:landlord_portal/config/colors.dart';
 
 class KeyFactsData extends StatelessWidget {
@@ -14,10 +15,25 @@ class KeyFactsData extends StatelessWidget {
   final String dataPercentage;
   final String dataPercentageTrend;
 
-  IconData get icon =>
-      dataPercentageTrend == 'up' ? Icons.arrow_upward : Icons.arrow_downward;
+  IconData get icon {
+    if (dataPercentageTrend == 'up') {
+      return Icons.arrow_upward;
+    } else if (dataPercentageTrend == 'down') {
+      return Icons.arrow_downward;
+    } else {
+      return Icons.drag_handle_sharp;
+    }
+  }
 
-  Color get color => dataPercentageTrend == 'up' ? kPrimaryColor : kRedAccent;
+  Color get color {
+    if (dataPercentageTrend == 'up') {
+      return kPrimaryColor;
+    } else if (dataPercentageTrend == 'down') {
+      return kRedAccent;
+    } else {
+      return kTertiaryColor;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,26 +43,27 @@ class KeyFactsData extends StatelessWidget {
       children: [
         Text(
           dataTitle,
-          style: const TextStyle(
-            color: Color(0xFF1D1D25),
-            fontSize: 14,
+          style: TextStyle(
+            color: const Color(0xFF1D1D25),
+            fontSize: 15.spMin,
             fontFamily: 'Inter',
             fontWeight: FontWeight.w600,
-            height: 0.10,
+            height: 0.10.r,
           ),
         ),
-        const SizedBox(height: 25.0),
+        25.verticalSpace,
         Text(
           dataValue,
-          style: const TextStyle(
-            color: Color(0xFF1D1D25),
-            fontSize: 20,
+          style: TextStyle(
+            color: const Color(0xFF1D1D25),
+            fontSize: 20.sp,
             fontFamily: 'Inter',
             fontWeight: FontWeight.w700,
-            height: 0.07,
+            height: 0.07.r,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(height: 20.0),
+        20.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -54,6 +71,7 @@ class KeyFactsData extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Icon(
                 icon,
+                // size: 16.r,
                 color: color,
               ),
             ),
@@ -61,26 +79,24 @@ class KeyFactsData extends StatelessWidget {
               dataPercentage,
               style: TextStyle(
                 color: color,
-                fontSize: 14,
+                fontSize: 14.sp,
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w600,
-                height: 0.10,
+                height: 0.10.r,
               ),
             ),
-            const SizedBox(
-              width: 6.0,
-            ),
-            const Align(
+            6.horizontalSpace,
+            Align(
               alignment: Alignment.bottomCenter,
               child: Text(
                 'from last month',
                 style: TextStyle(
-                  color: Color(0xFF808D9E),
-                  fontSize: 10,
+                  color: const Color(0xFF808D9E),
+                  fontSize: 10.sp,
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w400,
-                  height: 0.22,
-                  letterSpacing: -0.50,
+                  height: 0.22.r,
+                  letterSpacing: -0.50.r,
                 ),
               ),
             )
