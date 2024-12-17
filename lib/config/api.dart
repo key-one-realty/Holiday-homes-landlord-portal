@@ -1,10 +1,11 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 String? getEnvironmentalVariable(String key) {
-  return String.fromEnvironment(key, defaultValue: dotenv.env[key] ?? "");
+  // Prefer using dotenv for runtime environment variable retrieval
+  return dotenv.env[key];
 }
 
-String? baseApi = getEnvironmentalVariable("BASE_API_URL");
+String? baseApi = getEnvironmentalVariable("BASE_API_URL") ?? "";
 
 String verifyAccessTokenAPI = '$baseApi/validate-token';
 
