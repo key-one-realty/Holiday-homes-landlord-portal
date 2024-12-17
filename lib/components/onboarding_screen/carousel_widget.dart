@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 // import 'package:landlord_portal/components/shared/restore_credentials.dart';
@@ -33,12 +33,12 @@ class CarouselWidget extends StatefulWidget {
 }
 
 class _CarouselWidgetState extends State<CarouselWidget> {
-  late CarouselController buttonCarouselController;
+  late CarouselControllerPlus buttonCarouselController;
   int currentIndex = 0;
 
   @override
   void initState() {
-    buttonCarouselController = CarouselController();
+    buttonCarouselController = CarouselControllerPlus();
     super.initState();
   }
 
@@ -49,7 +49,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         CarouselSlider(
-          carouselController: buttonCarouselController,
+          controller: buttonCarouselController,
           items: CarouselWidget.onBoardingList
               .map((e) => Builder(builder: (BuildContext context) {
                     return Padding(
