@@ -10,7 +10,7 @@ import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/authentication/model/auth_user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthPovider extends ChangeNotifier {
+class AuthProvider extends ChangeNotifier {
   AuthUserModel? _loginResponse;
   AuthUserModel? get loginResponse => _loginResponse;
   UserModel? _user;

@@ -22,7 +22,7 @@ class StatementSreen extends StatefulWidget {
 
 class _StatementSreenState extends State<StatementSreen> {
   Future<String> getuserId() async {
-    String userId = context.read<AuthPovider>().userId;
+    String userId = context.read<AuthProvider>().userId;
 
     if (userId == "") {
       SharedPreferences prefs = await SharedPreferences.getInstance();

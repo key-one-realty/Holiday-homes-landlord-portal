@@ -35,7 +35,7 @@ class StatementCard extends StatelessWidget {
               height: 22.r,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: kPrimaryColor,
+                  backgroundColor: kSecondaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(2.r),
@@ -60,7 +60,7 @@ class StatementCard extends StatelessWidget {
                 child: Text(
                   "View",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 12.sp,
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w600,

@@ -28,7 +28,7 @@ class PropertyDetails extends StatefulWidget {
 
 class _PropertyDetailsState extends State<PropertyDetails> {
   Future<String> getuserId() async {
-    String userId = context.read<AuthPovider>().userId;
+    String userId = context.read<AuthProvider>().userId;
 
     if (userId == "") {
       SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -51,7 +51,7 @@ dependencies:
   flutter_cached_pdfview: ^0.4.2
   flutter_screenutil: ^5.9.3
   upgrader: ^10.3.0
-  url_launcher: ^6.3.0
+  url_launcher: ^6.2.10
   rename_app: ^1.5.0
   firebase_messaging: ^15.0.2
   firebase_core: ^3.1.1
@@ -101,7 +101,8 @@ flutter:
   assets:
     - assets/images/
     - assets/app_icon/
-    # - .env
+    - assets/.env
+    - assets/images/icon-circle.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

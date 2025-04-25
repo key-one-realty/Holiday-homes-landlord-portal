@@ -45,7 +45,7 @@ Future<void> main() async {
   handleBackgroundMessaging();
 
   if (const bool.fromEnvironment('IS_LOCAL', defaultValue: true)) {
-    await dotenv.load(fileName: ".env");
+    await dotenv.load(fileName: "assets/.env");
   }
 
   runApp(
@@ -76,7 +76,7 @@ Future<void> main() async {
           create: (context) => NavigationModel(),
         ),
         ChangeNotifierProvider(
-          create: (context) => AuthPovider(),
+          create: (context) => AuthProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => SplashScreenProvider(),
@@ -114,16 +114,18 @@ class MyApp extends StatelessWidget {
           // the command line to start the app).
           //
           // Notice that the counter didn't reset back to zero; the application
-          // state is not lost during the reload. To reset the state, use hot
+          // state is not lost during the reloa
+          //d. To reset the state, use hot
           // restart instead.
           //
           // This works for code too, not just values: Most code changes can be
           // tested with just a hot reload.
           colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromRGBO(55, 126, 79, 1),
-            primary: const Color.fromRGBO(55, 126, 79, 1),
-            secondary: const Color(0xFFBEA354),
-          ),
+          seedColor: Color(0xFFFFDFA0), // Light version of your gold
+          primary: Color(0xFFFFDFA0),   // Primary color light gold
+          secondary: Color(0xFFFFF2CC), // Even lighter gold for secondary
+        ),
+
           useMaterial3: true,
         ),
         home: child,

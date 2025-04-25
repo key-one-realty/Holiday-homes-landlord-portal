@@ -6,30 +6,19 @@ import 'package:landlord_portal/config/colors.dart';
 import 'package:landlord_portal/features/profile/profile_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar(
-      {super.key,
-      required this.appBarTitle,
-      this.goBack = false,
-      this.onPressLeadingIcon});
+  const CustomAppBar({
+    super.key,
+    required this.appBarTitle,
+    this.goBack = false,
+    this.onPressLeadingIcon,
+  });
 
-  final String appBarTitle;
+  final dynamic appBarTitle;
   final bool goBack;
   final void Function()? onPressLeadingIcon;
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
-
-  Icon get icon => !goBack
-      ? Icon(
-          Icons.person_2_outlined,
-          color: Colors.white,
-          size: 20.r,
-        )
-      : Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-          size: 20.r,
-        );
 
   IconData get iconData => appBarTitle != "Notifications"
       ? Icons.notifications_none
@@ -40,23 +29,42 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.fromHeight(100.0.r),
       child: AppBar(
-        // toolbarHeight: kToolbarHeight + 50.r,
         title: Padding(
           padding: EdgeInsets.all(15.0.r),
-          child: Text(
-            appBarTitle,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w500,
-              height: 0,
-            ),
-          ),
+          child: appBarTitle is String
+              ? Text(
+                  appBarTitle,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              : appBarTitle,
         ),
         backgroundColor: kPrimaryColor,
-        leading: IconButton(
-            icon: icon,
+
+        // Optional: show back button only if goBack is true
+        leading: goBack
+            ? IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                  size: 20.r,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            : null,
+
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: Colors.white,
+              size: 20.r,
+            ),
             onPressed: () {
               if (!goBack) {
                 Navigator.push(
@@ -65,39 +73,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     builder: (context) => const ProfilePage(),
                   ),
                 );
-              } else {
-                Navigator.pop(context);
+              } else if (onPressLeadingIcon != null) {
+                onPressLeadingIcon!();
               }
-            }),
-        // actions: [
-        //   badge.Badge(
-        //     position: badge.BadgePosition.topEnd(top: 6.r, end: 8.r),
-        //     stackFit: StackFit.passthrough,
-        //     badgeContent: Container(
-        //       width: 3.r,
-        //       height: 3.r,
-        //       decoration: const ShapeDecoration(
-        //         color: Color(0xFFEB3D5E),
-        //         shape: OvalBorder(),
-        //       ),
-        //     ),
-        //     child: IconButton(
-        //       icon: Icon(iconData, color: Colors.white),
-        //       onPressed: () {
-        //         // Scaffold.of(context).openDrawer();
-        //         if (appBarTitle != "Notifications") {
-        //           Navigator.push(
-        //               context,
-        //               MaterialPageRoute(
-        //                   builder: (context) => const NotificationScreen()));
-        //         } else {
-        //           Navigator.pop(context);
-        //         }
-        //       },
-        //     ),
-        //   ),
-        // ],
+            },
+          ),
+        ],
       ),
     );
   }
 }
+

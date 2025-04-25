@@ -59,7 +59,7 @@ class CustomBarChart extends StatelessWidget {
                       ),
                       width: 43.23.r,
                       toY: entry.value,
-                      color: kPrimaryColor,
+                      color: kSecondaryColor,
                     ),
                   ],
                 ))

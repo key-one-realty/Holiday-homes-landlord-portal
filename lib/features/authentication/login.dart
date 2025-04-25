@@ -24,7 +24,7 @@ class Login extends StatelessWidget {
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(24.0.r),
-            child: Consumer<AuthPovider>(
+            child: Consumer<AuthProvider>(
               builder: (_, value, __) => Form(
                 key: formKey,
                 child: Column(

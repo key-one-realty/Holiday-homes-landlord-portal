@@ -16,7 +16,7 @@ class CardContainer extends StatelessWidget {
     this.trailing = false,
     this.hasBtn = false,
     this.trailingWidgetText = 'AED',
-    this.trailingWidgetBackground = kSecondaryColor,
+    this.trailingWidgetBackground = kPrimaryColor,
     this.buttonText = 'See All',
     this.onPressed,
     this.isLoading = false,

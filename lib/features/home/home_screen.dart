@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Future<String> getuserId() async {
-    String userId = context.read<AuthPovider>().userId;
+    String userId = context.read<AuthProvider>().userId;
 
     if (userId == "") {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -56,8 +56,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<UserProvider>(
       builder: (context, value, child) => Scaffold(
         appBar: CustomAppBar(
-          appBarTitle: 'Hi ${value.firstname}!',
+          appBarTitle: Align(
+          alignment: Alignment.centerLeft,
+          child: SizedBox(
+            height: 35,
+            child: Image.asset(
+              'assets/images/icon-light.png',
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
+        ),
+
         body: Consumer<LandlordProvider>(
           builder: (_, landlordValue, __) => SingleChildScrollView(
             child: Column(
@@ -73,7 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Consumer<UserProvider>(
+                            Align(
+                              alignment: Alignment.center,
+                            child:Consumer<UserProvider>(
                               builder: (c, userValue, ch) => Text(
                                 userValue.closingBalance,
                                 style: TextStyle(
@@ -85,7 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            Text(
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
                               'closing balance',
                               style: TextStyle(
                                 color: const Color(0xFFEFF1EE),
@@ -94,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.w500,
                                 height: 0,
                               ),
-                            ),
+                            ),),
                           ],
                         ),
                       ),

@@ -17,7 +17,7 @@ class PersonalManager extends StatelessWidget {
         // width: 327,
         padding: EdgeInsets.all(10.0.r),
         decoration: ShapeDecoration(
-          color: kSecondaryColor,
+          color: kPrimaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
           ),

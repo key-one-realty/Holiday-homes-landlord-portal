@@ -20,7 +20,7 @@ class PropertiesScreen extends StatefulWidget {
 
 class _PropertiesScreenState extends State<PropertiesScreen> {
   Future<String> getuserId() async {
-    String userId = context.read<AuthPovider>().userId;
+    String userId = context.read<AuthProvider>().userId;
 
     if (userId == "") {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,7 +49,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
   Widget build(BuildContext context) {
     // TextEditingController controller = TextEditingController();
 
-    return Consumer<AuthPovider>(
+    return Consumer<AuthProvider>(
       builder: (context, authProviderValue, child) => Scaffold(
         appBar: const CustomAppBar(
           appBarTitle: "My Properties",
