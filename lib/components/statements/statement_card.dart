@@ -30,49 +30,61 @@ class StatementCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 78.r,
-              height: 22.r,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: kSecondaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(2.r),
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    vertical: 2.r,
-                    horizontal: 8.r,
-                  ),
-                ),
-                onPressed: () {
-                  value.setPDFLink = statementPDFLink;
-                  if (kDebugMode) {
-                    customDebugPrint(value.pdfLink);
-                  }
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (builder) => const PdfViewer(),
-                    ),
-                  );
-                },
-                child: Text(
-                  "View",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text( // Month text first
+                  "$statementMonth Statement",
                   style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
+                SizedBox(width: 10.w),
+                SizedBox( // Button second
+                  width: 78.r,
+                  height: 22.r,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: kSecondaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(2.r),
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 2.r,
+                        horizontal: 8.r,
+                      ),
+                    ),
+                    onPressed: () {
+                      value.setPDFLink = statementPDFLink;
+                      if (kDebugMode) {
+                        customDebugPrint(value.pdfLink);
+                      }
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (builder) => const PdfViewer(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "View",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12.sp,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+
             11.verticalSpace,
-            Text(
-              "$statementMonth Statement",
-            ),
-            11.verticalSpace,
+
             Row(
               children: [
                 Container(

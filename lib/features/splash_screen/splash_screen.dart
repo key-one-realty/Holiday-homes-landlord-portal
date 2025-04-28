@@ -72,13 +72,13 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
         body: Container(
       width: double.infinity,
-      color: Theme.of(context).colorScheme.primary,
+      color:Colors.black,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image(
-              image: const AssetImage('assets/images/keyone_logo.png'),
+              image: const AssetImage('assets/images/icon-light.png'),
               width: 60.r,
             ),
           ],

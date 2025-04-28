@@ -37,7 +37,9 @@ class Login extends StatelessWidget {
                           const Center(
                             child: Image(
                               image: AssetImage(
-                                  'assets/images/keyone_logo_green.png'),
+                                  'assets/images/icon-dark.png'),
+                                  width: 100,
+                                  height: 100,
                             ),
                           ),
                           87.verticalSpace,

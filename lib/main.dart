@@ -123,7 +123,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
           seedColor: Color(0xFFFFDFA0), // Light version of your gold
           primary: Color(0xFFFFDFA0),   // Primary color light gold
-          secondary: Color(0xFFFFF2CC), // Even lighter gold for secondary
+          secondary: Color(0xFFFFF2CC),
+           // Even lighter gold for secondary
         ),
 
           useMaterial3: true,

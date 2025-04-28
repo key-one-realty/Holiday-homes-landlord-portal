@@ -9,7 +9,7 @@ class LoadingIcon extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Image(
-          image: AssetImage('assets/images/keyone_logo.png'),
+          image: AssetImage('assets/images/house-white.png'),
           width: 60,
         ),
       ],

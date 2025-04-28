@@ -366,9 +366,9 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                         minDate: value.minCalendarDate,
                         maxDate: value.maxCalendarDate,
                         initialDisplayDate: DateTime.now(),
-                        startRangeSelectionColor: kPrimaryColor,
-                        endRangeSelectionColor: kPrimaryColor,
-                        rangeSelectionColor: kPrimaryColor.withOpacity(0.2),
+                        startRangeSelectionColor: kSecondaryColor,
+                        endRangeSelectionColor: kSecondaryColor,
+                        rangeSelectionColor: kSecondaryColor.withOpacity(0.2),
                         selectableDayPredicate: (date) {
                           return value.selectableDayPredicate(
                             date,
