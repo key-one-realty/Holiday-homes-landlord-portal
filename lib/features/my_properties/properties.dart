@@ -82,7 +82,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                 //     ),
                 //   ),
                 // ),
-                21.verticalSpace,
+                // 21.verticalSpace,
                 CardContainer(
                   cardHeader: "Active Listings",
                   child: ValueListenableBuilder<List<PropertyDetailsBody>?>(
@@ -108,14 +108,14 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                                 .platformHeightMultiplier.r *
                                             propertyProviderValue
                                                 .numberOfProperties.r) <
-                                    250.r
-                                ? 250.r
+                                    400.r
+                                ? 400.r
                                 : MediaQuery.sizeOf(context).height.r *
                                     (propertyProviderValue
                                             .platformHeightMultiplier.r *
                                         propertyProviderValue
                                             .numberOfProperties.r)
-                            : 250.r,
+                            : 400.r,
                         child: ListView.builder(
                           itemCount: propertyDetailsBody.length,
                           itemBuilder: (context, index) {

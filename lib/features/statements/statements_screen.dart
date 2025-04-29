@@ -63,7 +63,7 @@ class _StatementSreenState extends State<StatementSreen> {
                   hasBtn: false,
                   buttonText: "See All Transaction",
                   child: SizedBox(
-                    height: 300.0.r,
+                    height: 400.0.r,
                     child: ListView.builder(
                       itemCount: value.statements.length,
                       itemBuilder: (context, index) {

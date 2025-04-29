@@ -280,6 +280,9 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       ),
                     ),
                     30.verticalSpace,
+                    // Text("Income Data Count: ${value.incomeData.length}"),
+
+                    
                     SizedBox(
                       height: 200.0.r,
                       child: CustomBarChart(

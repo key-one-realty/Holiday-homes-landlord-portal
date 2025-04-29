@@ -374,41 +374,38 @@ class PropertyDetailsProvider extends ChangeNotifier {
     }
   }
 
-  List<MapEntry<int, double>> get incomeData {
-    PropertyIncome? propertyProvider = propertyIncome;
+List<MapEntry<int, double>> get incomeData {
+  final PropertyIncome? propertyProvider = propertyIncome;
+  final List<MapEntry<int, double>> mapEntryList = [];
 
-    List<MapEntry<int, double>> mapEntryList = [];
+  // Get current month
+  int currentMonth = DateTime.now().month;
 
-    if (propertyProvider != null) {
-      List<IncomeItem> incomeList = propertyProvider.propertyIncome;
-      if (incomeList.isNotEmpty) {
-        incomeList.sort((a, b) => a.month.compareTo(b.month));
+  // List months we want: e.g., [5, 6, 7, 8, 9, 10] if current = October
+  List<int> monthsToShow = List.generate(6, (index) {
+    int month = currentMonth - 5 + index;
+    return month > 0 ? month : month + 12; // handle January/December wrap
+  });
 
-        int incomelistLength = incomeList.length - 1;
-        int lastIncomeMonth = incomeList[incomelistLength].month;
+  // Create a map of available incomes
+  final Map<int, double> incomeMap = {};
 
-        int leastMonth = lastIncomeMonth - 6;
-
-        for (IncomeItem income in incomeList) {
-          if (income.month > leastMonth) {
-            double incomeDouble =
-                double.parse(income.income.replaceAll(",", ""));
-            MapEntry<int, double> entry = MapEntry(income.month, incomeDouble);
-            mapEntryList.add(entry);
-          } else {
-            continue;
-          }
-        }
-        // context.read<PropertyDetailsProvider>().incomeListEmpty = false;
-        return mapEntryList;
-      } else {
-        // context.read<PropertyDetailsProvider>().incomeListEmpty = true;
-        return [const MapEntry(1, 0)];
-      }
-    } else {
-      return [const MapEntry(1, 0)];
+  if (propertyProvider != null && propertyProvider.propertyIncome.isNotEmpty) {
+    for (var income in propertyProvider.propertyIncome) {
+      int month = income.month;
+      double incomeValue = double.tryParse(income.income.replaceAll(",", "")) ?? 0.0;
+      incomeMap[month] = incomeValue;
     }
   }
+
+  // Fill final list
+  for (var month in monthsToShow) {
+    mapEntryList.add(MapEntry(month, incomeMap[month] ?? 0.0));
+  }
+
+  return mapEntryList;
+}
+
 
   List<Widget> get upcomingBookingsList {
     List<MonthlyBooking>? bookings = monthlyBooking;

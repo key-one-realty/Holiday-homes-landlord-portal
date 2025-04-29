@@ -43,7 +43,7 @@ class StatementCard extends StatelessWidget {
                 ),
                 SizedBox(width: 10.w),
                 SizedBox( // Button second
-                  width: 78.r,
+                  width: 40.r,
                   height: 22.r,
                   child: TextButton(
                     style: TextButton.styleFrom(
@@ -69,14 +69,10 @@ class StatementCard extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text(
-                      "View",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w600,
-                      ),
+                    child: Icon(
+                      Icons.remove_red_eye,
+                      color: Colors.white,
+                      size: 12.r,
                     ),
                   ),
                 ),
