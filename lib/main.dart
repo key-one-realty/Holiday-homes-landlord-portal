@@ -121,9 +121,9 @@ class MyApp extends StatelessWidget {
           // This works for code too, not just values: Most code changes can be
           // tested with just a hot reload.
           colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xFFFFDFA0), // Light version of your gold
-          primary: Color(0xFFFFDFA0),   // Primary color light gold
-          secondary: Color(0xFFFFF2CC),
+          seedColor: const Color(0xFFFFDFA0), // Light version of your gold
+          primary: const Color(0xFFFFDFA0),   // Primary color light gold
+          secondary: const Color(0xFFFFF2CC),
            // Even lighter gold for secondary
         ),
 

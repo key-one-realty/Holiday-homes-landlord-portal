@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:landlord_portal/config/helpers/util_functions.dart';
 import 'package:landlord_portal/features/authentication/model/auth_user_model.dart';

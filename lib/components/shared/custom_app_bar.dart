@@ -44,20 +44,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         backgroundColor: kPrimaryColor,
 
-        // Optional: show back button only if goBack is true
-        leading: goBack
-            ? IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                  size: 20.r,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            : null,
-
         actions: [
           IconButton(
             icon: Icon(
