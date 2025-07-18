@@ -13,7 +13,7 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+    flutterVersionCode = '2'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
@@ -35,7 +35,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
   }
 
 android {
-    namespace "com.example.landlord_portal"
+    namespace "com.example.landlord_portal_hh"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
