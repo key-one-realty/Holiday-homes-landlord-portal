@@ -70,7 +70,7 @@ class BarChartSample1State extends State<BarChartLoader> {
     );
 
     return SideTitleWidget(
-      axisSide: meta.axisSide,
+      meta: meta,
       space: 16,
       child: text,
     );

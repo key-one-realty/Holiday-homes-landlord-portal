@@ -1,150 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-Widget chartMonthConstructor(value, meta) {
+Widget chartMonthConstructor(double value, TitleMeta meta) {
+  String text;
   switch (value.toInt()) {
     case 1:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Jan',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Jan';
+      break;
     case 2:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Feb',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Feb';
+      break;
     case 3:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Mar',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Mar';
+      break;
     case 4:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Apr',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Apr';
+      break;
     case 5:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'May',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'May';
+      break;
     case 6:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Jun',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Jun';
+      break;
     case 7:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Jul',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Jul';
+      break;
     case 8:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Aug',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Aug';
+      break;
     case 9:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Sep',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Sep';
+      break;
     case 10:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Oct',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Oct';
+      break;
     case 11:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Nov',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Nov';
+      break;
     case 12:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Dec',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = 'Dec';
+      break;
     default:
-      return const SideTitleWidget(
-        axisSide: AxisSide.left,
-        child: Text(
-          'Jan',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      );
+      text = '';
   }
+
+  return SideTitleWidget(
+    meta: meta,
+    child: Text(
+      text,
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 16,
+      ),
+    ),
+  );
 }

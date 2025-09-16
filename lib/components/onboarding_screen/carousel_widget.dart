@@ -33,12 +33,12 @@ class CarouselWidget extends StatefulWidget {
 }
 
 class _CarouselWidgetState extends State<CarouselWidget> {
-  late CarouselControllerPlus buttonCarouselController;
+  late CarouselSliderController buttonCarouselController;
   int currentIndex = 0;
 
   @override
   void initState() {
-    buttonCarouselController = CarouselControllerPlus();
+    buttonCarouselController = CarouselSliderController();
     super.initState();
   }
 
@@ -103,7 +103,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
         ),
         DotsIndicator(
           dotsCount: CarouselWidget.onBoardingList.length,
-          position: currentIndex,
+          position: currentIndex.toDouble(),
           decorator: DotsDecorator(
             color: kGreyColor,
             activeColor: kPrimaryColor,

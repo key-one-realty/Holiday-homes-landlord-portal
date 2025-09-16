@@ -15,7 +15,16 @@ class CustomBarChart extends StatelessWidget {
       BarChartData(
         barTouchData: BarTouchData(
             touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.white,
+          tooltipBorder: BorderSide(color: Colors.white,),
+          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+            return BarTooltipItem(
+              '\$${rod.toY.toStringAsFixed(2)}',
+              const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          },
           fitInsideHorizontally: true,
         )),
         borderData: FlBorderData(
@@ -40,6 +49,7 @@ class CustomBarChart extends StatelessWidget {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
+              reservedSize: 36,
               getTitlesWidget: chartMonthConstructor,
             ),
           ),

@@ -27,22 +27,26 @@ class PropertyDetails extends StatefulWidget {
 }
 
 class _PropertyDetailsState extends State<PropertyDetails> {
-  Future<String> getuserId() async {
-    String userId = context.read<AuthProvider>().userId;
+Future<String> getuserId() async {
+  String userId = context.read<AuthProvider>().userId;
 
-    if (userId == "") {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      userId = prefs.getString('userId')!;
-    }
+  if (userId == "") {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId') ?? "";
+  }
 
-    if (mounted) {
+  if (mounted) {
+    // Defer the provider update to avoid setState/build conflicts
+    await Future.microtask(() async {
       await context
           .read<PropertyDetailsProvider>()
           .getPropertyDetails(userId, widget.projectId, null, null);
-    }
-
-    return userId;
+    });
   }
+
+  return userId;
+}
+
 
   @override
   void initState() {
@@ -293,9 +297,9 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                 ),
               ),
               CardContainer(
-                enableHeaderWidget: true,
+                enableHeaderWidget: true, /////////////////
                 headerWidget: DateDropdown(
-                    selectedMonth: value.selectedMonth,
+                    selectedMonth: value.requestedMonth,
                     onSelected: (dateValue) async {
                       customDebugPrint("$dateValue");
                       value.setMonthSelected = dateValue["month"];
@@ -340,51 +344,54 @@ class _PropertyDetailsState extends State<PropertyDetails> {
                       20.verticalSpace,
                       const BorderLine(),
                       20.verticalSpace,
+
+                      
                       SfDateRangePicker(
-                        controller: dateRangePickercontroller,
-                        onSelectionChanged:
-                            (dateRangePickerSelectionChangedArgs) =>
-                                dateRangePickercontroller.selectedRanges =
-                                    value.bookedDateList,
-                        view: DateRangePickerView.month,
-                        selectionMode: DateRangePickerSelectionMode.multiRange,
-                        selectionShape: DateRangePickerSelectionShape.rectangle,
-                        extendableRangeSelectionDirection:
-                            ExtendableRangeSelectionDirection.none,
-                        toggleDaySelection: false,
-                        monthViewSettings:
-                            const DateRangePickerMonthViewSettings(
-                          firstDayOfWeek: 1,
-                        ),
-                        backgroundColor: Colors.white,
-                        headerStyle: DateRangePickerHeaderStyle(
-                          backgroundColor: Colors.white,
-                          textStyle: TextStyle(
-                            color: kTextColor,
-                            fontSize: 16.sp,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        minDate: value.minCalendarDate,
-                        maxDate: value.maxCalendarDate,
-                        initialDisplayDate: DateTime.now(),
-                        startRangeSelectionColor: kSecondaryColor,
-                        endRangeSelectionColor: kSecondaryColor,
-                        rangeSelectionColor: kSecondaryColor.withOpacity(0.2),
-                        selectableDayPredicate: (date) {
-                          return value.selectableDayPredicate(
-                            date,
-                            value.bookedDateList,
-                          );
-                        },
-                        selectionColor: kPrimaryColor,
-                        // onSelectionChanged:
-                        //     (DateRangePickerSelectionChangedArgs args) {
-                        //   customDebugPrint(args.value.toString());
-                        // },
-                        initialSelectedRanges: value.bookedDateList,
+                      controller: dateRangePickercontroller,
+                      onSelectionChanged: (args) =>
+                          dateRangePickercontroller.selectedRanges = value.bookedDateList,
+                      view: DateRangePickerView.month,
+                      selectionMode: DateRangePickerSelectionMode.multiRange,
+                      selectionShape: DateRangePickerSelectionShape.rectangle,
+                      extendableRangeSelectionDirection: ExtendableRangeSelectionDirection.none,
+                      toggleDaySelection: false,
+                      monthViewSettings: const DateRangePickerMonthViewSettings(
+                        firstDayOfWeek: 1,
                       ),
+                      backgroundColor: Colors.white,
+                      headerStyle: DateRangePickerHeaderStyle(
+                        backgroundColor: Colors.white,
+                        textStyle: TextStyle(
+                          color: kTextColor,
+                          fontSize: 16.sp,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      // ✅ Set min/max relative to current month
+                      minDate: DateTime.now().subtract(const Duration(days: 30 * 6)), // 6 months before
+                      maxDate: DateTime.now().add(const Duration(days: 30 * 6)),      // 6 months ahead
+                      initialDisplayDate: DateTime.now(),
+                      startRangeSelectionColor: kSecondaryColor,
+                      endRangeSelectionColor: kSecondaryColor,
+                      rangeSelectionColor: kSecondaryColor.withOpacity(0.2),
+                      selectableDayPredicate: (date) {
+                        return value.selectableDayPredicate(
+                          date,
+                          value.bookedDateList,
+                        );
+                      },
+                      selectionColor: kPrimaryColor,
+
+                      // 🔽 ADD THIS:
+                      onViewChanged: (DateRangePickerViewChangedArgs args) {
+                        final DateTime visibleStart = args.visibleDateRange.startDate!;
+                        context.read<PropertyDetailsProvider>().fetchBookingsForMonth(visibleStart);
+                      },
+
+                      initialSelectedRanges: value.bookedDateList,
+                    ),
+
                     ],
                   )),
               CardContainer(

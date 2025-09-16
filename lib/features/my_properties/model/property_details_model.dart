@@ -40,9 +40,12 @@ class PropertyDetailsProvider extends ChangeNotifier {
 
   String? _userId;
 
+DateTime? _lastFetchedMonth; // Add this to your provider class
+
+
   set setUserId(String userId) {
     _userId = userId;
-    notifyListeners();
+    Future.microtask(() => notifyListeners());
   }
 
   DateTime now = DateTime.now();
@@ -51,7 +54,7 @@ class PropertyDetailsProvider extends ChangeNotifier {
 
   set setMonthSelected(String month) {
     monthValue = month;
-    notifyListeners();
+    Future.microtask(() => notifyListeners());
   }
 
   Map<String, Map<String, String>> getMonthRanges() {
@@ -128,12 +131,12 @@ class PropertyDetailsProvider extends ChangeNotifier {
 
   set setIsLoading(bool isLoadingValue) {
     _isLoading = isLoadingValue;
-    notifyListeners();
+    Future.microtask(() => notifyListeners());
   }
 
   set setIsSuccess(bool isSuccess) {
     isSuccess = isSuccess;
-    notifyListeners();
+    Future.microtask(() => notifyListeners());
   }
 
   String formatNumberToPrice(num number) {
@@ -410,10 +413,22 @@ List<MapEntry<int, double>> get incomeData {
   List<Widget> get upcomingBookingsList {
     List<MonthlyBooking>? bookings = monthlyBooking;
 
+    
+
     List<Widget> bookingCard = [];
     if (bookings != null) {
+       DateFormat format = DateFormat("dd/MM/yy");
+
+      bookings.sort((a, b) {
+        DateTime dateA = format.parse(a.bookingCheckIn);
+        DateTime dateB = format.parse(b.bookingCheckIn);
+        return dateA.compareTo(dateB); // ascending
+      });
+
       if (bookings.isNotEmpty) {
         for (MonthlyBooking booking in bookings) {
+          debugPrint("Booking: ${booking.bookingCheckIn}");
+          debugPrint("Booking: ${booking.bookingCheckOut}");
           DateFormat format = DateFormat("dd/MM/yy");
           DateFormat outputFormat = DateFormat("d MMM, yy");
           DateTime checkIn = format.parse(booking.bookingCheckIn);
@@ -592,8 +607,6 @@ List<MapEntry<int, double>> get incomeData {
         _propertyTrendsReport = _propertyDetailsData!.propertyTrendsReport;
         _monthlyBookings = _propertyDetailsData!.monthlyBooking;
 
-        // customDebugPrint(
-        //     "From api method: ${_transactionDetails!.bookingDates[0].checkIn}");
 
         int propertyIncomeLength = _propertyIncome!.propertyIncome.length;
 
@@ -624,4 +637,57 @@ List<MapEntry<int, double>> get incomeData {
       return false;
     }
   }
+
+
+
+Future<void> fetchBookingsForMonth(DateTime visibleStart) async {
+  // Prevent fetching the same month repeatedly
+  if (_lastFetchedMonth != null &&
+      _lastFetchedMonth!.year == visibleStart.year &&
+      _lastFetchedMonth!.month == visibleStart.month) {
+    return;
+  }
+
+  _lastFetchedMonth = visibleStart;
+
+  try {
+    setIsLoading = true;
+
+    DateTime startOfMonth = DateTime(visibleStart.year, visibleStart.month, 1);
+    DateTime endOfMonth = DateTime(visibleStart.year, visibleStart.month + 1, 0);
+
+    String formattedStart = DateFormat('dd-MM-yyyy').format(startOfMonth);
+    String formattedEnd = DateFormat('dd-MM-yyyy').format(endOfMonth);
+
+    bool success = await getPropertyDetails(
+      userId,
+      propertyDetailsBody!.firstbitPropertyId,
+      formattedStart,
+      formattedEnd,
+    );
+
+    if (!success) {
+      throw Exception("Failed to fetch bookings for the selected month");
+    }
+  } catch (e, stackTrace) {
+    if (kDebugMode) {
+      debugPrint("Error fetching bookings: $e");
+      debugPrint("$stackTrace");
+    }
+
+    Fluttertoast.showToast(
+      msg: "$e",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 2,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  } finally {
+    setIsLoading = false;
+  }
+}
+
+
 }
