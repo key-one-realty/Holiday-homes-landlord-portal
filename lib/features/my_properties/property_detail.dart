@@ -13,6 +13,7 @@ import "package:landlord_portal/features/my_properties/model/property_details_mo
 import "package:provider/provider.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:intl/intl.dart';
 
 class PropertyDetails extends StatefulWidget {
   const PropertyDetails({
@@ -27,6 +28,7 @@ class PropertyDetails extends StatefulWidget {
 }
 
 class _PropertyDetailsState extends State<PropertyDetails> {
+  DateTime? requestedMonthDate;
 Future<String> getuserId() async {
   String userId = context.read<AuthProvider>().userId;
 
@@ -80,28 +82,34 @@ Future<String> getuserId() async {
           child: IconButton(
             color: Colors.white,
             onPressed: () {
-              showAdaptiveDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return displayMonthFilter(
-                    (dateValue) async {
-                      customDebugPrint("$dateValue");
-                      value.setMonthSelected = dateValue["month"];
-                      Navigator.of(context).pop();
-                      await value.getPropertyDetails(
-                        value.userId,
-                        widget.projectId,
-                        dateValue["start"],
-                        dateValue["end"],
-                      );
-                    },
-                    context,
-                    value.getDropDownMenuEntries,
-                    value.getMonthList,
-                  );
-                },
-              );
-            },
+  showAdaptiveDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return displayMonthFilter(
+        (dateValue) async {
+customDebugPrint("this is the date $dateValue");
+value.setMonthSelected = dateValue["month"];
+
+ setState(() {
+            requestedMonthDate =
+                DateFormat("MMMM yyyy").parse(dateValue["month"]);
+          });
+Navigator.of(context).pop();
+await value.getPropertyDetails(
+  value.userId,
+  widget.projectId,
+  dateValue["start"],
+  dateValue["end"],
+);
+
+        },
+        context,
+        value.getDropDownMenuEntries,
+        value.getMonthList,
+      );
+    },
+  );
+},
             icon: const Icon(Icons.calendar_month),
           ),
         ),
@@ -303,6 +311,10 @@ Future<String> getuserId() async {
                     onSelected: (dateValue) async {
                       customDebugPrint("$dateValue");
                       value.setMonthSelected = dateValue["month"];
+                       setState(() {
+                        requestedMonthDate =
+                            DateFormat("MMMM yyyy").parse(dateValue["month"]);
+                      });
                       Navigator.of(context).pop();
                       await value.getPropertyDetails(
                         value.userId,
@@ -371,7 +383,7 @@ Future<String> getuserId() async {
                       // ✅ Set min/max relative to current month
                       minDate: DateTime.now().subtract(const Duration(days: 30 * 6)), // 6 months before
                       maxDate: DateTime.now().add(const Duration(days: 30 * 6)),      // 6 months ahead
-                      initialDisplayDate: DateTime.now(),
+                      initialDisplayDate: requestedMonthDate ?? DateTime.now(),
                       startRangeSelectionColor: kSecondaryColor,
                       endRangeSelectionColor: kSecondaryColor,
                       rangeSelectionColor: kSecondaryColor.withOpacity(0.2),

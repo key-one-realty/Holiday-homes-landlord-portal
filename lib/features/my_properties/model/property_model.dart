@@ -58,10 +58,18 @@ class PropertyProvider extends ChangeNotifier {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString("accessToken");
+      void printLongString(String text) {
+        final pattern = RegExp('.{1,800}'); // 800 chars per chunk
+        pattern.allMatches(text).forEach((match) => print(match.group(0)));
+      }
+
+      printLongString(token ?? '');
       Map<String, String>? header = {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
       };
+      print('Requesting: $getUserPropertiesAPI');
+
       Uri url = Uri.parse('$getUserPropertiesAPI/$userId');
       // customDebugPrint('$url, $header');
       final response = await http.get(url, headers: header);

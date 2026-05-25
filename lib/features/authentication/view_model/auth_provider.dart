@@ -94,6 +94,7 @@ class AuthProvider extends ChangeNotifier {
           customDebugPrint("user id: ${_user!.id}");
         }
         prefs.setString("userId", _user!.id);
+        debugPrint("User Logged In: ${_user!.id}");
         Fluttertoast.showToast(
           msg: "Logged in Successfully",
           toastLength: Toast.LENGTH_SHORT,
