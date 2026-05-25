@@ -52,3 +52,6 @@ build/
 ios/Pods/
 android/app/build/
 
+build/
+android/app/build/
+.dart_tool/
